@@ -1,0 +1,113 @@
+\section{Reconstruction Error}
+We want to perform PCA. Each sample $x_i \in \mathbb{R}^p$ is projected onto the new coordinate system using $z_i = V_{1:k}^T x_i$. Here, $V_{1:k}$ is the matrix of the first $k$ principal components ($V_{1:k} = [v_1|v_2|...|v_k]$). We can reconstruct $x_i$ from $z_i$ using the equation $\hat{x}_i = V_{1:k} z_i$.
+
+\subsection{part 1}
+
+Prove:
+\[
+\| \hat{x}_i - \hat{x}_j \|_2 = \| z_i - z_j \|_2
+\]
+\begin{qsolve}
+    \begin{qsolve}[]
+        from the given information, we have:
+        \[
+        \hat{x}_i = V_{1:k} z_i
+        \]
+        \[
+        \hat{x}_j = V_{1:k} z_j
+        \]
+        so we can write:
+        \[
+        \hat{x}_i - \hat{x}_j = V_{1:k} z_i - V_{1:k} z_j
+        \]
+        \[
+        \hat{x}_i - \hat{x}_j = V_{1:k} (z_i - z_j)
+        \]
+        thus we can conclude that:
+        \[
+        \| \hat{x}_i - \hat{x}_j \|^2 = \| V_{1:k} (z_i - z_j) \|^2
+        \]
+        so if we expand the right side of the equation by the fact that $\| x \|^2 = x^T x$ we get:
+        \[
+        \| V_{1:k} (z_i - z_j) \|^2 = (V_{1:k} (z_i - z_j))^T (V_{1:k} (z_i - z_j))
+        \]
+        \[
+        = (z_i - z_j)^T V_{1:k}^T V_{1:k} (z_i - z_j)
+        \]
+        Since $V_{1:k}$ consists of the first $k$ principal components, its columns are orthonormal.
+        \[
+        \Rightarrow V_{1:k}^T V_{1:k} = I
+        \]
+        \[
+        \Rightarrow (z_i - z_j)^T V_{1:k}^T V_{1:k} (z_i - z_j) = (z_i - z_j)^T I (z_i - z_j)
+        \]
+        \[
+        = (z_i - z_j)^T (z_i - z_j)
+        \]
+        \[
+        = \| z_i - z_j \|^2
+        \]
+        thus we approve that:
+        \begin{center}
+            \hl{$\Rightarrow \| \hat{x}_i - \hat{x}_j \|^2 = \| z_i - z_j \|^2$}
+        \end{center}
+        
+    \end{qsolve}
+\end{qsolve}
+\subsection{part 2}
+Prove:
+\[
+\sum_{i=1}^n \| x_i - \hat{x}_i \|_2^2 = (n - 1) \sum_{i=k+1}^p \lambda_i
+\]
+
+What can be inferred from this equation regarding the reconstruction error?
+\begin{qsolve}
+    \begin{qsolve}[]
+        again from the given information, we have:
+        \[
+        \hat{x_i} = V_{1:k}V_{1:k}^Tx_i
+        \]
+        so
+        \[
+        x_i - \hat{x_i} = x_i - V_{1:k}V_{1:k}^Tx_i
+        \]
+        this can be written as:
+        \[
+        x_i - \hat{x_i} = (I - V_{1:k}V_{1:k}^T)x_i
+        \]
+        and if we get norm of the above equation we get:
+        \[
+        \|x_i - \hat{x_i}\|^2 = \|(I - V_{1:k}V_{1:k}^T)x_i\|^2
+        \]
+        Sum of Squared Reconstruction Errors can be written as:
+        \[
+        \sum_{i=1}^{n}\|x_i - \hat{x_i}\|^2 = \sum_{i=1}^{n}\|(I - V_{1:k}V_{1:k}^T)x_i\|^2
+        \]
+        $$ \sum_{i=1}^{n}\|(I - V_{1:k}V_{1:k}^T)x_i\|^2 = \sum_{i=1}^{n}\|V_{k+1:p}V_{k+1:p}^Tx_i\|^2 $$
+        $$ = \sum_{i=1}^{N}(V_{k+1:p}V_{k+1:p}^T x_i)^T(V_{k+1:p}V_{k+1:p}^T x_i) $$
+        $$ = \sum_{i=1}^{N}x_i^T V_{k+1:p}V_{k+1:p}^T V_{k+1:p}V_{k+1:p}^T x_i $$
+        so cause $V_{k+1:p}$ is orthogonal matrix, we have:
+        $$ = \sum_{i=1}^{N}x_i^T V_{k+1:p}V_{k+1:p}^T x_i $$
+        $$ = \sum_{i=1}^{N}Tr(x_i^T V_{k+1:p}V_{k+1:p}^T x_i) $$
+        $$ = \sum_{i=1}^{N}Tr(V_{k+1:p}^T x_i x_i^T V_{k+1:p}) $$
+        so as we know we can define $S = \frac{1}{N-1}\sum_{i=1}^{N}(x_i-\bar{x})(x_i-\bar{x})^T$ and as $\bar{x} = 0$ this can be written as:
+        $$ S = \frac{1}{N-1}\sum_{i=1}^{N}x_i x_i^T $$
+        so we can write:
+        $$ \sum_{i=1}^{N}Tr(V_{k+1:p}^T x_i x_i^T V_{k+1:p}) = Tr(V_{k+1:p}^T S V_{k+1:p}) $$
+        \splitqsolve[\splitqsolve]
+        which is equal to:
+        $$ (n-1)Tr(V_{k+1:p}^T S V_{k+1:p}) = (n-1)\sum_{i=k+1}^{p}\lambda_i $$
+        so the sum of squared reconstruction errors is equal to:
+        \begin{center}
+            \hl{$ \sum_{i=1}^n \| x_i - \hat{x}_i \|_2^2 = (n - 1) \sum_{i=k+1}^p \lambda_i$}
+        \end{center}
+        \textbf{conclusion:}\\
+        The equation
+        $
+        \sum_{i=1}^{n} \|x_i - \hat{x}_i\|^2 = (n-1) \sum_{i=k+1}^{p} \lambda_i
+        $
+        provides insights into how PCA minimizes reconstruction error by focusing on the largest eigenvalues (principal components) that capture the most variance in the data. It highlights the trade-offs involved in dimensionality reduction and reconstruction accuracy in PCA.The reconstruction error is directly related to
+        the eigenvalues that correspond to the discarded principal components. The larger these
+        eigenvalues, the greater the reconstruction error. If we use more principal components (larger k) to reconstruct the data, the reconstruction error will decrease.
+    \end{qsolve}
+\end{qsolve}

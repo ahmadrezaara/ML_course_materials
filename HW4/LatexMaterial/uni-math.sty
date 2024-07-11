@@ -1,0 +1,12 @@
+\newcommand{\barthrough}{\hspace*{-0.08em}\bar{}\hspace*{0.1em}}
+\newcommand{\dbar}{d\barthrough}
+\newcommand{\deriv}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand{\derivv}[2]{\deriv{}{#2}\left(#1\right)}
+\newcommand{\pderiv}[2]{\frac{\partial#1}{\partial#2}}
+\newcommand{\pderivv}[2]{\pderiv{}{#2}\left(#1\right)}
+\newcommand{\fourier}[2][t]{\int_{-\infty}^{\infty}#2 e^{-j\omega #1}d#1}
+\newcommand{\ifourier}[2][t]{\frac{1}{2\pi}\int_{-\infty}^{\infty}#2 e^{j\omega #1}d\omega}
+\newcommand{\letm}{\text{let:}\ }
+\newcommand{\when}{\Big|}
+\newcommand{\convolve}[3][t]{\int_{-\infty}^{\infty}#2(\tau)#3(#1-\tau)d\tau}
+\newcommand{\donvolve}[3][k]{\sum_{k=-\infty}^{\infty}#2[k]#3[#1-k]}

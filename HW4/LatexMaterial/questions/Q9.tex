@@ -1,0 +1,112 @@
+\section{Advanced Hard-Margin SVM with Dual Problem and Kernel Methods}
+
+\subsection{Primal Formulation and Geometric Interpretation}
+Define the primal optimization problem for a hard-margin SVM. Clearly state the objective function and the constraints. Provide a geometric interpretation of the margin and explain why maximizing the margin is important in the context of classification.
+\begin{qsolve}
+    \begin{qsolve}[]
+        The primal optimization problem for a hard-margin SVM can be defined as follows:
+        \begin{align*}
+            \text{minimize} \quad & \frac{1}{2} \|\mathbf{w}\|^2 \\
+            \text{subject to} \quad & y_i(\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1, \quad i = 1, 2, \ldots, n
+        \end{align*}
+        where $\mathbf{w}$ is the weight vector, $b$ is the bias term, $\mathbf{x}_i$ are the input vectors, and $y_i$ are the corresponding class labels. The objective function aims to minimize the norm of the weight vector, which corresponds to maximizing the margin between the two classes. The constraints ensure that all data points are correctly classified with a margin of at least 1.
+
+        Geometrically, the margin represents the distance between the decision boundary and the closest data point from either class. Maximizing the margin ensures that the decision boundary is as far away as possible from the data points, which leads to better generalization and robustness of the classifier. By maximizing the margin, the SVM aims to find the hyperplane that best separates the two classes while maintaining a safe margin of separation.
+        
+    \end{qsolve}
+\end{qsolve}
+\subsection{Derive the Dual Problem from the Primal Formulation}
+Starting from the primal formulation, derive the dual optimization problem for the hard-margin SVM. Introduce Lagrange multipliers and formulate the Lagrangian. Show detailed steps to obtain the dual problem by minimizing the Lagrangian with respect to the primal variables $\mathbf{w}$ and $b$. Ensure to explain the mathematical properties and assumptions used in the derivation.
+\begin{qsolve}
+    \begin{qsolve}[]
+        To derive the dual problem from the primal formulation of the hard-margin SVM, we introduce Lagrange multipliers $\alpha_i \geq 0$ for each constraint. The Lagrangian is defined as:
+        \begin{align*}
+            L(\mathbf{w}, b, \boldsymbol{\alpha}) = \frac{1}{2} \|\mathbf{w}\|^2 - \sum_{i=1}^{n} \alpha_i \left[ y_i(\mathbf{w} \cdot \mathbf{x}_i + b) - 1 \right]
+        \end{align*}
+        where $\boldsymbol{\alpha} = [\alpha_1, \alpha_2, \ldots, \alpha_n]^T$.
+
+        To derive the dual problem, we minimize the Lagrangian with respect to $\mathbf{w}$ and $b$ by setting the derivatives to zero:
+        \begin{align*}
+            \nabla_{\mathbf{w}} L(\mathbf{w}, b, \boldsymbol{\alpha}) &= \mathbf{w} - \sum_{i=1}^{n} \alpha_i y_i \mathbf{x}_i = 0 \\
+            \frac{\partial L(\mathbf{w}, b, \boldsymbol{\alpha})}{\partial b} &= -\sum_{i=1}^{n} \alpha_i y_i = 0
+        \end{align*}
+        Substituting these back into the Lagrangian, we obtain the dual Lagrangian:
+        \begin{align*}
+            \mathcal{L}(\boldsymbol{\alpha}) = \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \sum_{i=1}^{n} \sum_{j=1}^{n} \alpha_i \alpha_j y_i y_j \mathbf{x}_i \cdot \mathbf{x}_j
+        \end{align*}
+        subject to the constraints $\alpha_i \geq 0$ and $\sum_{i=1}^{n} \alpha_i y_i = 0$. The dual problem is then given by:
+        \begin{align*}
+            \text{maximize} \quad & \mathcal{L}(\boldsymbol{\alpha})
+        \end{align*}
+        with the constraints $\alpha_i \geq 0$ and $\sum_{i=1}^{n} \alpha_i y_i = 0$.
+
+    \end{qsolve}
+\end{qsolve}
+\subsection{KKT Conditions and Support Vectors}
+State the Karush-Kuhn-Tucker (KKT) conditions for the hard-margin SVM. Use these conditions to explain the significance of support vectors in the context of the dual problem.
+\begin{qsolve}
+    \begin{qsolve}[]
+        The Karush-Kuhn-Tucker (KKT) conditions for the hard-margin SVM are as follows:
+        \begin{align*}
+            &\nabla_{\mathbf{w}} L(\mathbf{w}, b, \boldsymbol{\alpha}) = \mathbf{w} - \sum_{i=1}^{n} \alpha_i y_i \mathbf{x}_i = 0 \\
+            &\frac{\partial L(\mathbf{w}, b, \boldsymbol{\alpha})}{\partial b} = -\sum_{i=1}^{n} \alpha_i y_i = 0 \\
+        \end{align*}
+        \splitqsolve[\splitqsolve]
+        \begin{align*}
+            &\alpha_i \left[ y_i(\mathbf{w} \cdot \mathbf{x}_i + b) - 1 \right] = 0 \\
+            &\alpha_i \geq 0 \\
+            &y_i(\mathbf{w} \cdot \mathbf{x}_i + b) - 1 \geq 0 \\
+            &\alpha_i \left[ y_i(\mathbf{w} \cdot \mathbf{x}_i + b) - 1 \right] = 0
+        \end{align*}
+        The KKT conditions state that the Lagrange multipliers $\alpha_i$ are non-negative and are zero for all data points that are not support vectors. The support vectors are the data points that lie on the margin or violate the margin constraint, and they have non-zero Lagrange multipliers. These support vectors play a crucial role in defining the decision boundary of the SVM, as they contribute to the computation of the weight vector $\mathbf{w}$ and the bias term $b$.
+
+        In the context of the dual problem, the support vectors are the data points that define the hyperplane that separates the two classes. By having non-zero Lagrange multipliers, these support vectors influence the decision boundary and the margin of the SVM. The KKT conditions ensure that the support vectors are correctly classified and lie on the margin, thereby defining the optimal separating hyperplane.
+    \end{qsolve}
+\end{qsolve}
+\subsection{Kernel Trick and Dual Problem Reformulation}
+Using the kernel trick, replace the inner product in the dual problem with a kernel function $K(\mathbf{x}_i, \mathbf{x}_j) = \phi(\mathbf{x}_i) \cdot \phi(\mathbf{x}_j)$. Derive the dual optimization problem for a hard-margin SVM with a specific kernel, such as the Gaussian RBF kernel $K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2)$. Discuss the computational benefits of using the kernel trick and how it allows handling non-linear separable data.
+\begin{qsolve}
+    \begin{qsolve}[]
+        To incorporate the kernel trick into the dual problem, we replace the inner product $\mathbf{x}_i \cdot \mathbf{x}_j$ with the kernel function $K(\mathbf{x}_i, \mathbf{x}_j) = \phi(\mathbf{x}_i) \cdot \phi(\mathbf{x}_j)$. For the Gaussian RBF kernel, the kernel function is defined as:
+        \begin{align*}
+            K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2)
+        \end{align*}
+        The dual optimization problem with the Gaussian RBF kernel is then given by:
+        \begin{align*}
+            \text{maximize} \quad & \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \sum_{i=1}^{n} \sum_{j=1}^{n} \alpha_i \alpha_j y_i y_j K(\mathbf{x}_i, \mathbf{x}_j)
+        \end{align*}
+        subject to the constraints $\alpha_i \geq 0$ and $\sum_{i=1}^{n} \alpha_i y_i = 0$.
+        The kernel trick allows us to operate in a higher-dimensional feature space without explicitly computing the transformation $\phi(\mathbf{x})$. By using the kernel function, we can efficiently compute the dot products in the feature space without explicitly mapping the data points.
+        \splitqsolve[\splitqsolve]
+        This computational benefit is crucial for handling non-linearly separable data, as it allows us to find complex decision boundaries in high-dimensional spaces without the need for explicit feature mapping. The kernel trick enables SVMs to capture non-linear relationships between data points by implicitly transforming them into a higher-dimensional space, where the data becomes linearly separable.
+    \end{qsolve}
+\end{qsolve}
+\subsection{Solve the Dual Problem and Interpret the Results}
+Solve the dual problem and determine the support vectors. Explain how the support vectors are used to construct the decision boundary in both the original and transformed feature spaces. Provide a geometric interpretation of the decision boundary in the context of the kernelized SVM.
+\begin{qsolve}
+    \begin{qsolve}[]
+        we can solve the dual problem using QP. if we call the solution to that $\alpha*$ we can write:
+        \begin{align*}
+            \mathbf{w}^* = \sum_{i=1}^{n} \alpha_i^* y_i \mathbf{x}_i
+        \end{align*}
+        the original decision boundary can be written as:
+        \begin{align*}
+            \mathbf{w}^{*^T} \cdot \mathbf{x} + b^* = 0
+        \end{align*}
+        using the solution to QP we can find $b^*$ by:
+        \begin{align*}
+            b^* = \frac{1}{n} \sum_{i=1}^{n} \left( y_i - \sum_{j=1}^{n} \alpha_j^* y_j \mathbf{x}_j^T \cdot \mathbf{x}_i \right)
+        \end{align*}
+        so the decision boundary in the original feature space can be written as:
+        \begin{align*}
+            \sum_{i=1}^{n} \alpha_i^* y_i \mathbf{x}_i^T \cdot \mathbf{x} + \frac{1}{n} \sum_{i=1}^{n} \left( y_i - \sum_{j=1}^{n} \alpha_j^* y_j \mathbf{x}_j^T \cdot \mathbf{x}_i \right) = 0
+        \end{align*}
+        using same method we can write the decision boundary in the transformed feature space as:
+        \begin{align*}
+            \sum_{i=1}^{n} \alpha_i^* y_i K(\mathbf{x}_i, \mathbf{x}) + \frac{1}{n} \sum_{i=1}^{n} \left( y_i - \sum_{j=1}^{n} \alpha_j^* y_j K(\mathbf{x}_j, \mathbf{x}_i) \right) = 0
+        \end{align*}
+        The support vectors are the data points that have non-zero Lagrange multipliers $\alpha_i^*$. These support vectors lie on the margin or violate the margin constraint and play a crucial role in defining the decision boundary of the SVM.
+        \splitqsolve[\splitqsolve]
+        In the original feature space, the support vectors are used to construct the hyperplane that separates the two classes. In the transformed feature space, the support vectors define the decision boundary in the higher-dimensional space, allowing the SVM to capture non-linear relationships between the data points.
+    \end{qsolve}
+\end{qsolve}
