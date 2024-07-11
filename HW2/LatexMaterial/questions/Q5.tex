@@ -1,0 +1,99 @@
+\section{Naive Bayes}
+
+Consider a Naive Bayes classification problem with three classes and two features. One of these features comes from a Bernoulli distribution and the other comes from a Gaussian distribution. Features are denoted by random vector $X = [X_1, X_2]^\top$ and class is denoted by $Y$. 
+
+Prior distribution is:
+\[
+P(Y = 0) = 0.5, \quad P(Y = 1) = 0.25, \quad P(Y = 2) = 0.25
+\]
+
+Features distribution is:
+\[
+p_{X_1 \mid Y}(x_1 \mid y = c) = \text{Ber}(x_1; \theta_c), \quad p_{X_2 \mid Y}(x_2 \mid y = c) = \mathcal{N}(x_2; \mu_c, \sigma_c^2)
+\]
+
+Also assume that:
+\[
+\theta_c = \begin{cases} 
+0.5 & \text{if } c = 0 \\
+0.5 & \text{if } c = 1 \\
+0.5 & \text{if } c = 2 
+\end{cases}, \quad
+\mu_c = \begin{cases} 
+-1 & \text{if } c = 0 \\
+0 & \text{if } c = 1 \\
+1 & \text{if } c = 2 
+\end{cases}, \quad
+\sigma_c^2 = \begin{cases} 
+1 & \text{if } c = 0 \\
+1 & \text{if } c = 1 \\
+1 & \text{if } c = 2 
+\end{cases}
+\]
+
+\subsection{part 1}
+Find $P(Y \mid X_1 = 0, X_2 = 0)$(The answer must be a vector in $\mathbb{R}^3$ where the sum of its elements equal to 1).
+
+\begin{qsolve}
+	\begin{qsolve}[]
+		$$
+		P(y \mid x) = \frac{P(x \mid y) P(y)}{P(x)} = \frac{P(x_1 \mid y)P(x_2\mid y) P(y)}{P(x_1) P(x_2)} \\
+		$$
+		$$
+		p(x_1=0) = \sum_{k=0}^{2}P(x_1=0\mid y=k)P(y=k) = \frac{1}{2}
+		$$
+		$$
+		p(x_2=0) = \sum_{k=0}^{2}P(x_2=0\mid y=k)P(y=k) = \frac{1}{4\sqrt{2\pi}}[3e^{-\frac{1}{2}} + 1]
+		$$
+		$$
+		\Rightarrow P(x_1 = 0) P(x_2 = 0) = \frac{3e^{-\frac{1}{2}}}{8\sqrt{2\pi}} + \frac{1}{8\sqrt{2\pi}}
+		$$
+		$$
+		P(y = 0 \mid x_1 = 0, x_2 = 0) = \frac{P(x_1 = 0 \mid y = 0) P(x_2 = 0 \mid y = 0) P(y = 0)}{P(x_1 = 0) P(x_2 = 0)} = \frac{2e^{-\frac{1}{2}}}{3e^{-\frac{1}{2}}+1}
+		$$
+		$$
+		P(y = 1 \mid x_1 = 0, x_2 = 0) = \frac{P(x_1 = 0 \mid y = 1) P(x_2 = 0 \mid y = 1) P(y = 1)}{P(x_1 = 0) P(x_2 = 0)} = \frac{1}{3e^{-\frac{1}{2}}+1}
+		$$
+		$$
+		P(y = 2 \mid x_1 = 0, x_2 = 0) = \frac{P(x_1 = 0 \mid y = 2) P(x_2 = 0 \mid y = 2) P(y = 2)}{P(x_1 = 0) P(x_2 = 0)} = \frac{e^{-\frac{1}{2}}}{3e^{-\frac{1}{2}}+1}
+		$$
+		$$
+		\Rightarrow P(y \mid x_1 = 0, x_2 = 0, y = 0) = (\frac{1}{3e^{-\frac{1}{2}}+1}) \begin{bmatrix} 2e^{-\frac{1}{2}} \\ 1 \\ e^{-\frac{1}{2}} \end{bmatrix}
+		$$
+	\end{qsolve}
+\end{qsolve}
+
+\subsection{part 2}
+Find $p_{X_1 \mid Y}(x_1 \mid y = 1)$.
+
+\begin{qsolve}
+	\begin{qsolve}[]
+		$$P(y=0\mid x_1=0) = \int_{-\infty}^{\infty}P(y=0\mid x_1=0,x_2)P(x_2)dx_2 = \int_{-\infty}^{\infty}\frac{e^{-\frac{1}{2}(x_2+1)^2}}{2\sqrt{2\pi}}dx_2 = \frac{1}{2}$$
+		$$P(y=1\mid x_1=0) = \int_{-\infty}^{\infty}P(y=1\mid x_1=0,x_2)P(x_2)dx_2 = \int_{-\infty}^{\infty}\frac{e^{-\frac{1}{2}x_2^2}}{4\sqrt{2\pi}}dx_2 = \frac{1}{4}$$
+		$$P(y=2\mid x_1=0) = \int_{-\infty}^{\infty}P(y=2\mid x_1=0,x_2)P(x_2)dx_2 = \int_{-\infty}^{\infty}\frac{e^{-\frac{1}{2}(x_2-1)^2}}{4\sqrt{2\pi}}dx_2 = \frac{1}{4}$$
+		the result of the solutions comes from integral of a gaussian distribution over the real line.
+		$$\Rightarrow P(y\mid x_1=0) = \begin{bmatrix} \frac{1}{2} \\ \frac{1}{4} \\ \frac{1}{4} \end{bmatrix}$$
+	\end{qsolve}
+\end{qsolve}
+
+\subsection{part 3}
+Find $p_{X_2 \mid Y}(x_2 \mid y = 0)$.
+
+\begin{qsolve}
+	\begin{qsolve}[]
+		$$P(y\mid x_2=0) = \frac{P(x_2 = 0 \mid y)P(y)}{\sum_{y}P(x_2 = 0 \mid y)P(y)} = \frac{P(x_2 = 0 \mid y)P(y)}{\frac{1}{4\sqrt{2\pi}}(2e^{-\frac{1}{2}} + 1+e^{-\frac{1}{2}})}$$
+		and the numerator have been calculated in the previous parts so we have:
+		$$P(y\mid x_2=0) = \frac{1}{1+3e^{-\frac{1}{2}}} \begin{bmatrix} 2e^{-\frac{1}{2}} \\ 1 \\ e^{-\frac{1}{2}} \end{bmatrix}$$
+	\end{qsolve}
+\end{qsolve}
+
+\subsection{part 4}
+Justify the pattern that you see in your answers.
+
+\begin{qsolve}
+	\begin{qsolve}[]
+		as we can see the pattern is that \hl{$P_{Y\mid x_2} = P_{Y\mid x_1, x_2}$}.
+		\splitqsolve[\splitqsolve]
+		the reason is that $\theta_c$ is the same for all classes and the features are independent of each other. so the probability of each class given the features is the same as the probability of each class given the other feature and the features. 
+	\end{qsolve}
+\end{qsolve}

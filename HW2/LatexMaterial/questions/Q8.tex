@@ -1,0 +1,77 @@
+\section{QDA}
+
+Consider samples in the form of $x_i^1 = r \cos(\theta_i)$ and $x_i^2 = r \sin(\theta_i)$. For the first group $r = 3$ and for the second group $r = 5$. We have 16 samples from each group and $\theta_i = i \times \frac{\pi}{8}$ for $1 \leq i \leq 16$. Find the decision boundary using QDA classifier.
+\begin{qsolve}
+	\begin{qsolve}[]
+		$$
+			\hat{\mu}_1 = \frac{1}{16} \sum_{i=1}^{16} x_1^i = \frac{1}{16} \sum_{i=1}^{16} 3 \cos(\theta_i) = 0
+		$$
+
+		$$
+			\hat{\mu}_2 = \frac{1}{16} \sum_{i=1}^{16} x_2^i = \frac{1}{16} \sum_{i=1}^{16} 5 \sin(\theta_i) = 0
+		$$
+
+		$$
+			\hat{\sigma_1}^2 = \frac{1}{16} \sum_{i=1}^{16} (x_1^i - \hat{\mu}_1)^2 = \frac{1}{16} \sum_{i=1}^{16} 9 \cos^2(\theta_i) = \frac{9}{2}
+		$$
+
+		$$
+			\hat{\sigma_2}^2 = \frac{1}{16} \sum_{i=1}^{16} (x_2^i - \hat{\mu}_2)^2 = \frac{1}{16} \sum_{i=1}^{16} 25 \sin^2(\theta_i) = \frac{25}{2}
+		$$
+		$$
+		\Rightarrow \hat{\mu_1} = \begin{bmatrix}
+			0 \\ 0
+		\end{bmatrix} , \quad \hat{\mu_2} = \begin{bmatrix}
+			0 \\ 0
+			\end{bmatrix} 
+		$$
+
+		$$
+		\hat{\Sigma}_1 = \begin{bmatrix}
+			\hat{\sigma_1}^2 & 0 \\
+			0 & \hat{\sigma_1}^2
+		\end{bmatrix} = \begin{bmatrix}
+			\frac{9}{2} & 0 \\
+			0 & \frac{9}{2}
+		\end{bmatrix} , \quad \hat{\Sigma}_2 = \begin{bmatrix}
+			\hat{\sigma_2}^2 & 0 \\
+			0 & \hat{\sigma_2}^2
+		\end{bmatrix} = \begin{bmatrix}
+			\frac{25}{2} & 0 \\
+			0 & \frac{25}{2}
+		\end{bmatrix}
+		$$
+		now by this information we can define the decision boundary as \hl{$p(y=0\mid x;\hat{\theta}) = p(y=1\mid x;\hat{\theta})$} and by solving this equation we can find the decision boundary.
+	
+		$$
+		- \frac{1}{2} (\begin{bmatrix}
+			x_1 \\ x_2
+		\end{bmatrix} \Sigma_1^{-1} \begin{bmatrix}
+			x_1 \\ x_2
+			\end{bmatrix}) +\log\frac{1}{2\pi + |\Sigma_1|} = - \frac{1}{2} (\begin{bmatrix}
+				x_1 \\ x_2
+			\end{bmatrix} \Sigma_2^{-1} \begin{bmatrix}
+				x_1 \\ x_2
+				\end{bmatrix}) +\log\frac{1}{2\pi + |\Sigma_2|}
+		$$
+
+		$$
+		\Rightarrow - \frac{1}{2} (\begin{bmatrix}
+			x_1 \\ x_2
+			\end{bmatrix} \Sigma_1^{-1} \begin{bmatrix}
+				x_1 \\ x_2
+				\end{bmatrix} - \begin{bmatrix}
+					x_1 \\ x_2
+				\end{bmatrix} \Sigma_2^{-1} \begin{bmatrix}
+					x_1 \\ x_2
+					\end{bmatrix}) = \log|\Sigma_1|^{-\frac{1}{2}} - \log|\Sigma_2|^{-\frac{1}{2}} 					
+		$$
+		$$
+		\Rightarrow (x_1^2 + x_2^2) \left(\frac{1}{9} - \frac{1}{25}\right) = \log\frac{25}{9}
+		$$
+		$$
+		\Rightarrow x_1^2 + x_2^2 = 3.79^2
+		$$
+		so by this decision boundary we can say that the decision boundary is a circle with radius of 3.79 it means that if \hl{$x_1^2 + x_2^2 > 3.79^2 \Rightarrow \hat{y} = 2$} and if \hl{$x_1^2 + x_2^2 < 3.79^2 \Rightarrow \hat{y} = 1$}
+	\end{qsolve}
+\end{qsolve}

@@ -1,0 +1,146 @@
+\section{Estimators are the Key!}
+Suppose we have a random vector $X \in \mathbb{R}^d $. All elements are assumed to be \textit{i.i.d} random
+variables. Assume that we have an observation $x$. We want to fit a probability distribution to
+this data and we are going to use the Maximum Likelihood Estimator for that.
+\subsection{MLE 1}
+Assume that each $X_i$ is a Bernoulli random variable, \textit{i.e.}, $p_{x_i} = \theta ^ {x_i} (1-\theta)^{1-x_i}$. Also assume that we have observed m ones and k zeros. Find the distribution parameter $\theta$.
+\begin{qsolve}
+	\begin{qsolve}[]
+		from slides we know that we can define \textit{negetive log likelihood} as:
+		$$NLL(\theta) = -\sum_{n=1}^{N} \log p(y_n|x_n , \theta)$$
+		so we have an optimization problem:
+		$$\hat{\theta}_{MLE} = \arg \min_{\theta} NLL(\theta)$$
+		now from defenition we have:
+		$$NLL(\theta) = -\log \prod_{n=1}^{N} p(y_n|\theta) = -\log \prod_{n=1}^{N} \theta^{\mathbb{I}(y_n=1)}(1-\theta)^{\mathbb{I}(y_n=0)}$$
+		$$= -\sum_{n=1}^{N} \mathbb{I}(y_n=1)\log \theta + \mathbb{I}(y_n=0)\log (1-\theta)$$
+		$$ = -\log \theta \sum_{n=1}^{N} \mathbb{I}(y_n=1) - \log (1-\theta) \sum_{n=1}^{N} \mathbb{I}(y_n=0)$$
+		as it is mentioned in the question, we have m ones and k zeros, so we have:
+		$$\hat{\theta}_{MLE} = \arg \min_{\theta} (-m\log \theta - k\log (1-\theta))$$
+		so:
+		$$\dfrac{d}{d \theta} (-m\log \theta - k\log (1-\theta)) = -[\dfrac{m}{\theta} - \dfrac{k}{1-\theta}] = 0$$
+		$$\Rightarrow m - \theta (m+k) = 0 \Rightarrow$$
+		\begin{center}
+			\hl{$ \hat{\theta}_{MLE} = \dfrac{m}{m+k}$}
+		\end{center}
+		 
+	\end{qsolve}
+\end{qsolve}
+\subsection{MLE 2}
+Assume that each $X_i$ is a Normal random variable, \textit{.i.e} $p_{x_i} = \dfrac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x_i-\mu)^2}{2\sigma^2}}$. Find the mean and variance of the distribution.
+\begin{qsolve}
+	\begin{qsolve}[]
+		in this question we suppose:
+		\begin{mylist}
+			\item $Y \sim \mathcal{N}(\mu , \sigma^2)$
+			\item $\theta = (\mu , \sigma^2)$
+			\item $D = \{y_1, y_2, ..., y_N\}$
+			\item $\hat{\theta}_{MLE} =\{\hat{\mu}_{MLE}, \hat{\sigma^2}_{MLE}\}$
+		\end{mylist}
+		now we use the same approach as the last question. we can define \textit{negetive log likelihood} as:
+		$$NLL(\theta) = -\sum_{n=1}^{N} \log p(y_n|\mu, \sigma^2)$$
+		so we have an optimization problem:
+		$$\hat{\theta}_{MLE} = \arg \min_{\theta} NLL(\theta)$$
+		now from defenition we have:
+		$$NLL(\theta) = -\log \prod_{n=1}^{N} p(y_n|\mu, \sigma^2) = -\log \prod_{n=1}^{N} \dfrac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(y_n-\mu)^2}{2\sigma^2}}$$
+		$$= -\sum_{n=1}^{N} \log \dfrac{1}{\sqrt{2\pi\sigma^2}} - \dfrac{(y_n-\mu)^2}{2\sigma^2}$$
+		$$ = \dfrac{N}{2}\log(2\pi \sigma^2) + \dfrac{1}{2\sigma^2} \sum_{n=1}^{N} (y_n-\mu)^2$$
+		now we have:
+		$$\hat{\mu}_{MLE} = \dfrac{\partial}{\partial \mu} NLL(\mu, \sigma^2) = -\dfrac{1}{\sigma^2} \sum_{n=1}^{N} (y_n-\mu) = 0$$
+		$$\Rightarrow \sum_{n=1}^{N} (y_n-\mu) = 0 \Rightarrow \sum_{n=1}^{N} y_n = N\mu \Rightarrow$$
+		\begin{center}
+			\hl{$\hat{\mu}_{MLE} = \dfrac{1}{N} \sum_{n=1}^{N} y_n$}
+		\end{center}
+		we also have:
+		$$\hat{\sigma^2}_{MLE} = \dfrac{\partial}{\partial \sigma^2} NLL(\mu, \sigma^2) = \dfrac{N}{4\pi \sigma^2} - \dfrac{1}{2\sigma^4} \sum_{n=1}^{N} (y_n-\mu)^2 = 0$$
+		\splitqsolve[\splitqsolve]
+		$$\Rightarrow \dfrac{N}{2 \sigma^2} = \dfrac{1}{2\sigma^4} \sum_{n=1}^{N} (y_n-\mu)^2 \Rightarrow$$
+		$$\sigma^2 = \dfrac{1}{N} \sum_{n=1}^{N} (y_n-\mu)^2$$
+		\begin{center}
+			\hl{$\hat{\sigma^2}_{MLE} = \dfrac{1}{N} \sum_{n=1}^{N} (y_n-\mu)^2$}
+		\end{center}
+	\end{qsolve}
+\end{qsolve}
+\subsection{Bias-Variance}
+Show that for any estimator $\hat{\theta }$ of the parameter $\theta$, we have the following:
+$$\mathbb{E}[(\hat{\theta} - \theta)^2] = (\mathbb{E}[\hat{\theta}] - \theta)^2 + Var(\hat{\theta})$$
+\begin{qsolve}
+	\begin{qsolve}[]
+		$$\mathbb{E}[(\hat{\theta} - \theta)^2] = \mathbb{E}[\hat{\theta}^2 - 2\hat{\theta}\theta + \theta^2] $$
+		$$= \mathbb{E}[\hat{\theta}^2] - 2\theta \mathbb{E}[\hat{\theta}] + \theta^2$$
+		$$= \mathbb{E}[\hat{\theta}^2] - 2\theta \mathbb{E}[\hat{\theta}] + \theta^2 + \mathbb{E}[\hat{\theta}]^2 - \mathbb{E}[\hat{\theta}]^2$$
+	    as we know:
+		\begin{center}
+			\hl{$Var(\hat{\theta}) = \mathbb{E}[\hat{\theta}^2] - \mathbb{E}[\hat{\theta}]^2$}
+		\end{center}
+		and also:
+		\begin{center}
+			\hl{$\mathbb{E}[\hat{\theta}]^2 - 2\theta \mathbb{E}[\hat{\theta}] + \theta^2 = (\mathbb{E}[\hat{\theta}] - \theta)^2$}
+		\end{center}
+		so it can be proved that:
+		$$\mathbb{E}[(\hat{\theta} - \theta)^2] = (\mathbb{E}[\hat{\theta}] - \theta)^2 + Var(\hat{\theta})$$
+	\end{qsolve}
+\end{qsolve}
+\subsection{Linear Regression}
+Consider the following \textit{Linear Regression model}.
+$$Y_i = ax_i + b + Z_i$$
+$Z_i$’s are \textit{i.i.d} and of $\mathcal{N}(0,\sigma^2)$ distribution. We know the value of $\sigma$ and we are given n data
+like $(x_1, Y_1),(x_2, Y_2), \dots ,(x_n, Y_n)$. Using MLE, say how can we estimate $\hat{a}$,$\hat{b}$.(No calculations is needed for this part)
+\begin{qsolve}
+	\begin{qsolve}[]
+		we know that $Z_i$'s are \textit{i.i.d} and of $\mathcal{N}(0,\sigma^2)$ distribution. so we can say that:
+		$$p_{Z_i} = \dfrac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{z_i^2}{2\sigma^2}}$$
+		\splitqsolve[\splitqsolve]
+		we also can say that:
+		$$Z_i = Y_i - ax_i - b$$
+		so we can rewrite the distribution of $Z_i$ as:
+		$$p_{Z_i} = \dfrac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(Y_i - ax_i - b)^2}{2\sigma^2}}$$
+		now we suppose that:
+		\begin{mylist}
+			\item $\theta = (a , b)$
+			\item $D = \{(x_1, Y_1),(x_2, Y_2), \dots ,(x_n, Y_n)\}$
+			\item $\hat{\theta}_{MLE} =\{\hat{a}_{MLE}, \hat{b}_{MLE}\}$
+		\end{mylist}
+		so we can define \textit{negetive log likelihood} as:
+		$$NLL(\theta) = -\sum_{n=1}^{N} \log p(z_n|a, b)$$
+		so we have an optimization problem:
+		$$\hat{\theta}_{MLE} = \arg \min_{\theta} NLL(\theta)$$
+		now from defenition we have:
+		$$NLL(a,b) = -\log \prod_{n=1}^{N} p(z_n|a, b) = -\log \prod_{n=1}^{N} \dfrac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(Y_n - ax_n - b)^2}{2\sigma^2}}$$
+		$$= -\sum_{n=1}^{N} \log \dfrac{1}{\sqrt{2\pi\sigma^2}} - \dfrac{(Y_n - ax_n - b)^2}{2\sigma^2}$$
+		$$ = \dfrac{N}{2}\log(2\pi \sigma^2) + \dfrac{1}{2\sigma^2} \sum_{n=1}^{N} (Y_n - ax_n - b)^2$$
+		so we can say that:
+		\begin{center}
+			\hl{$\hat{a}_{MLE} = \dfrac{\partial}{\partial a} NLL(a, b) = -\dfrac{1}{\sigma^2} \sum_{n=1}^{N} x_n(Y_n - ax_n - b) = 0$}
+		\end{center}
+		and also:
+		\begin{center}
+			\hl{$\hat{b}_{MLE} = \dfrac{\partial}{\partial b} NLL(a, b) = -\dfrac{1}{\sigma^2} \sum_{n=1}^{N} (Y_n - ax_n - b) = 0$}
+		\end{center}
+		by solving these two equations we can find $\hat{a}_{MLE}$ and $\hat{b}_{MLE}$. 
+	\end{qsolve}
+\end{qsolve}
+\subsection{Blind estimation}
+We are given $X_1, X_2, \dots , X_n$ independent samples from $X$ distribution with mean $\mu$ and $Var(X) = \sigma ^2$
+. We want to do an $\varepsilon $-accurate estimation of $\mu$. Which means that we want
+our estimation to be in the $(\mu - \varepsilon, \mu + \varepsilon)$ range. Show that for an $\varepsilon$-accurate estimation, if we
+have $n = \mathcal{O}(\dfrac{\sigma ^2}{\varepsilon ^2})$, then with probability at least $\dfrac{3}{4}$ we will reach our goal.
+\begin{qsolve}
+	we use chebyshev's inequality to solve this question. chebyshev's inequality is defined as:
+	\begin{qsolve}[]
+		\begin{center}
+			chebyshev's inequality:
+		\end{center}
+		$$\mathbb{P}(|X - \mu| \geq k) \leq \dfrac{\sigma^2}{k^2}$$
+	\end{qsolve}
+	if we define sample mean as $\bar{X} = \dfrac{1}{n} \sum_{i=1}^{n} X_i$,the variance of $\bar{X}$ is $\dfrac{\sigma^2}{n}$. so by using this inequality we can say that:
+	\begin{qsolve}[]
+		$$\mathbb{P}(|\bar{X} - \mu| \geq \varepsilon) \leq \dfrac{\sigma^2}{n \varepsilon^2}$$
+		$$\Rightarrow1 - \mathbb{P}(|\bar{X} - \mu| \geq \varepsilon) \geq 1 - \dfrac{\sigma^2}{n \varepsilon^2} > \dfrac{3}{4}$$
+		$$\Rightarrow \mathbb{P}(|\bar{X} - \mu| < \varepsilon) \geq 1 - \dfrac{\sigma^2}{n \varepsilon^2} > \dfrac{3}{4}$$
+		now we solve the right side of the inequality:
+		$$1 - \dfrac{\sigma^2}{n \varepsilon^2} > \dfrac{3}{4} \Rightarrow \dfrac{\sigma^2}{n \varepsilon^2} < \dfrac{1}{4}$$
+		solving this inequality for n we have:
+		$$n > \dfrac{4\sigma^2}{\varepsilon^2}$$
+		so we can say that if we have $n = \mathcal{O}(\dfrac{\sigma ^2}{\varepsilon ^2})$, then with probability at least $\dfrac{3}{4}$ we will reach our goal.
+	\end{qsolve}
+\end{qsolve}

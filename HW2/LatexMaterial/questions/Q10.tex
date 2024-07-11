@@ -1,0 +1,73 @@
+\section{Ridge Regression}
+
+\subsection{part 1}
+Show that the ridge regression estimate is the mean (and mode) of the posterior distribution, under a Gaussian prior $\beta \sim N(0, \tau^2 I)$, and Gaussian sampling model $y \sim N(X\beta, \sigma^2 I)$. Find the relationship between the regularization parameter $\lambda$ in the ridge formula, and the variances $\tau^2$ and $\sigma^2$.
+
+\begin{qsolve}
+	\begin{qsolve}[]
+		$$
+		P(\beta \mid y ) \propto P(y \mid \beta)P(\beta)
+		$$
+		we can define the likelihood and prior as:
+		$$
+		P(y \mid \beta) = \frac{1}{(2\pi)^{n/2} |\Sigma|^{\frac{1}{2}}} \exp\left(-\frac{1}{2}(y-X\beta)^T \Sigma^{-1} (y-X\beta)\right)
+		$$
+		and the prior as:
+		$$
+		P(\beta) = \frac{1}{(2\pi)^{p/2} |\Sigma|^{\frac{1}{2}}} \exp\left(-\frac{1}{2}\beta^T \Sigma^{-1} \beta\right)
+		$$
+		so we have:
+		$$
+		P(\beta \mid y) \propto \exp\left(-\frac{1}{2}(y-X\beta)^T \Sigma^{-1} (y-X\beta) - \frac{1}{2}\beta^T \Sigma^{-1} \beta\right)
+		$$
+		taking logaritm of the posterior we have:
+		$$
+		\log P(\beta \mid y) = -\frac{1}{2}(y-X\beta)^T \Sigma^{-1} (y-X\beta) - \frac{1}{2}\beta^T \Sigma^{-1} \beta
+		$$
+		so we have:
+		$$
+		\min_{X} \left\{ (y-X\beta)^T \Sigma^{-1} (y-X\beta) + \beta^T \Sigma^{-1} \beta \right\}
+		$$
+		we can define the ridge regression as:
+		$$
+		\min_{\beta} \left\{ (y-X\beta)^T \Sigma^{-1} (y-X\beta) + \lambda \beta^T \Sigma^{-1} \beta \right\}
+		$$
+		so we can relate the regularization parameter $\lambda$ to the variances $\tau^2$ and $\sigma^2$ as:
+		$$
+		\lambda = \frac{\tau^2}{\sigma^2}
+		$$
+	\end{qsolve}
+\end{qsolve}
+
+\subsection{part 2}
+Show that the ridge regression estimates can be obtained by ordinary least squares regression on an augmented data set. We augment the centered matrix $X$ with $p$ additional rows $\sqrt{\lambda} I$ and augment $y$ with $p$ zeroes. By introducing artificial data having response value zero, the fitting procedure is forced to shrink the coefficients toward zero.
+
+\begin{qsolve}
+	\begin{qsolve}[]
+		we can define the ridge regression as:
+		$$
+		\min_{\beta} \left\{ (y-X\beta)^T \Sigma^{-1} (y-X\beta) + \lambda \beta^T \Sigma^{-1} \beta \right\}
+		$$
+		we can augment the matrix $X$ with $p$ additional rows $\sqrt{\lambda} I$ and augment $y$ with $p$ zeroes as:
+		$$
+		X_{aug} =
+		\begin{bmatrix}
+			X\\
+			\sqrt{\lambda} I
+		\end{bmatrix}
+		$$
+		and:
+		$$
+		y_{aug} =
+		\begin{bmatrix}
+			y\\
+			0
+		\end{bmatrix}
+		$$
+		so we can define the ridge regression as:
+		$$
+		\min_{\beta} \left\{ (y_{aug}-X_{aug}\beta)^T \Sigma^{-1} (y_{aug}-X_{aug}\beta) \right\}
+		$$
+		so we can obtain the ridge regression estimates by ordinary least squares regression on an augmented data set.
+	\end{qsolve}
+\end{qsolve}

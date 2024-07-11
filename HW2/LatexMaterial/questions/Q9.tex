@@ -1,0 +1,59 @@
+\section{Hana}
+
+Consider a regression problem with all variables and response having mean zero and standard deviation one. Suppose also that each variable has identical absolute correlation with the response:
+\[
+\frac{1}{N} | \langle x_j, y \rangle | = \lambda_j, \quad j = 1, \ldots, p.
+\]
+Let $\hat{\beta}$ be the least-squares coefficient of $y$ on $X$, and let $u(\alpha) = \alpha X \hat{\beta}$ for $\alpha \in [0, 1]$ be the vector that moves a fraction $\alpha$ toward the least squares fit $u$. Let $\text{RSS}$ be the residual sum-of-squares from the full least squares fit.(a) Show that 
+\[
+\frac{1}{N} | \langle x_j, y - u(\alpha) \rangle | = (1 - \alpha) \lambda_j, \quad j = 1, \ldots, p,
+\]
+and hence the correlations of each $x_j$ with the residuals remain equal in magnitude as we progress toward $u$. (b) Show that these correlations are all equal to
+\[
+\lambda(\alpha) = \frac{(1 - \alpha) \lambda}{\sqrt{(1 - \alpha)^2 + \frac{\alpha(2 - \alpha)}{N} \cdot \text{RSS}}}
+\]
+and hence they decrease monotonically to zero.
+\begin{qsolve}
+	part a)
+	\begin{qsolve}[]
+		$$		
+		\frac{1}{N} | \langle x_j, y - u(\alpha) \rangle | = \frac{1}{N} | x_j^T(y - \alpha X \hat{\beta}) | = \frac{1}{N} | x_j^T(y-\alpha X(X^TX)^{-1}X^Ty)|
+		$$
+		$$
+		= \frac{1}{N} | x_j^Ty - \alpha x_j^TX (X^TX)^{-1}X^Ty | 
+		$$
+		by defenition of question we know that $\frac{1}{N} | \langle x_j, y \rangle | = \lambda_j$ so we have:
+		$$
+		X^T(y-u(\alpha)) = X^Ty - \alpha X^TX(X^TX)^{-1}X^Ty = X^Ty - \alpha X^Ty = (1-\alpha)X^Ty
+		$$
+		$$
+		\Rightarrow \frac{1}{N} | \langle x_j, y - u(\alpha) \rangle | = \frac{1}{N} | x_j^T(y - u(\alpha)) | = \frac{1}{N} | x_j^T(1-\alpha)X^Ty | = (1-\alpha) \lambda_j
+		$$
+	\end{qsolve}
+	part b)
+	\begin{qsolve}[]
+		Given the regression equation and transformations, we have:
+		$$
+		\langle\hat{y}, y - \hat{y}\rangle = \hat{y}^T y - \hat{y}^T \hat{y} = \hat{y}^T (X(X^TX)^{-1}X^Ty) - \hat{y}^T (X(X^TX)^{-1}X^T y) = 0
+		$$
+		$$
+		\langle y, y - \hat{y} \rangle = \langle y - \hat{y}, y - \hat{y}\rangle + \langle \hat{y}, y - \hat{y}\rangle
+		$$
+		$$
+		\Rightarrow \text{RSS} = \langle y - \hat{y}, y - \hat{y}\rangle
+		$$
+		\splitqsolve[\splitqsolve]
+		$$
+		\langle y - u(\alpha), y - u(\alpha)\rangle = \langle y - \alpha \hat{y}, y - \alpha \hat{y}\rangle = \langle (1-\alpha) y + \alpha(y-\hat{y}), (1-\alpha) y + \alpha(y-\hat{y})\rangle
+		$$
+		$$
+		= (1-\alpha)^2 \langle y, y\rangle + \alpha^2 \langle y-\hat{y}, y-\hat{y}\rangle + 2\alpha(1-\alpha) \langle y, y-\hat{y}\rangle
+		$$
+		$$
+		= N(1-\alpha)^2 +2\alpha(1-\alpha) \langle y, y-\hat{y}\rangle + \alpha^2 \text{RSS}
+		$$
+		$$
+		\Rightarrow \lambda(\alpha) = \frac{(1-\alpha)\lambda}{\sqrt{(1-\alpha)^2 + \frac{\alpha(2-\alpha)}{N} \text{RSS}}}
+		$$
+	\end{qsolve}
+\end{qsolve}

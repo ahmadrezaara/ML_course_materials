@@ -1,0 +1,71 @@
+\section{Estimate}
+
+Let $x_1, x_2, \ldots, x_n$ be a sequence of independent random variables from normal distribution with variance $\sigma^2$ and mean $\mu$. Answer the following questions (assume you know the amount of variance).
+
+\subsection{Part 1}
+Compute the estimator MLE for the mean $\mu$.
+
+\begin{qsolve}
+	\begin{qsolve}[]
+		$$
+		L(\mu\mid x_1, x_2, \ldots, x_n) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x_i - \mu)^2}{2\sigma^2}\right)
+		$$
+		we can take the logaritm of the likelihood as:
+		$$
+		\log L(\mu\mid x_1, x_2, \ldots, x_n) = \sum_{i=1}^{n} \log \frac{1}{\sqrt{2\pi\sigma^2}} - \frac{(x_i - \mu)^2}{2\sigma^2}
+		$$
+		now to find the MLE we can take the derivative of the log likelihood with respect to $\mu$ and set it to zero as:
+		$$
+		\frac{\partial}{\partial \mu} \log L(\mu\mid x_1, x_2, \ldots, x_n) = \sum_{i=1}^{n} \frac{x_i - \mu}{\sigma^2} = 0
+		$$
+		so we have:
+		$$
+		\sum_{i=1}^{n} x_i - n\mu = 0
+		$$
+		$$
+		\hat{\mu}_{MLE} = \frac{1}{n} \sum_{i=1}^{n} x_i
+		$$
+	\end{qsolve}
+\end{qsolve}
+
+\subsection{Part 2}
+Compute the estimator MAP for the mean $\mu$. Assume that the prior distribution of the mean is from a normal distribution with mean $\mu$ and variance $\beta^2$.
+
+\begin{qsolve}
+	\begin{qsolve}[]
+		$$
+		L(\mu\mid x_1, x_2, \ldots, x_n) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x_i - \mu)^2}{2\sigma^2}\right)
+		$$
+		$$
+		\text{posterior} \propto \text{likelihood} \times \text{prior} (\ast)
+		$$
+		the prior is:
+		$$
+		\mu \sim N(\mu_0, \beta^2)
+		$$
+		\splitqsolve[\splitqsolve]
+		getting log of the $(\ast)$ we have:
+		$$
+		log(\text{posterior}) = \sum_{i=1}^{n} \log \frac{1}{\sqrt{2\pi\sigma^2}} - \frac{(x_i - \mu)^2}{2\sigma^2} + \log \frac{1}{\sqrt{2\pi\beta^2}} - \frac{(\mu - \mu_0)^2}{2\beta^2}
+		$$
+		to find the MAP we can take the derivative of the log posterior with respect to $\mu$ and set it to zero as:
+		$$
+		\frac{\partial}{\partial \mu} log(\text{posterior}) = \sum_{i=1}^{n} \frac{x_i - \mu}{\sigma^2} - \frac{\mu - \mu_0}{\beta^2} = 0
+		$$
+		$$
+		\sum_{i=1}^{n} x_i - n\mu - \frac{\mu - \mu_0}{\beta^2} = 0
+		$$
+		$$
+		\hat{\mu}_{MAP} = \frac{\frac{1}{\sigma^2} \sum_{i=1}^{n} x_i + \frac{1}{\beta^2} \mu_0}{\frac{n}{\sigma^2} + \frac{1}{\beta^2}}
+		$$
+	\end{qsolve}
+\end{qsolve}
+
+\subsection{Part 3}
+Check how the results of the first two parts change as the value of $N$ increases towards infinity.
+
+\begin{qsolve}
+	\begin{qsolve}[]
+		As $N$ increases towards infinity, the MLE and MAP estimators will converge to the true value of the mean $\mu$.
+	\end{qsolve}
+\end{qsolve}

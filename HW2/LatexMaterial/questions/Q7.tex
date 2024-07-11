@@ -1,0 +1,74 @@
+\section{LDA Vs. LR}
+
+Consider the one-dimensional feature $X$ and the two-class response $Y$. We want to show that classification using linear discriminant analysis is equivalent to using a linear regression model. Specifically, if the sample $x_i$ belongs to the first class we have $Y_i = \frac{n_1}{n}$ and if it belongs to the second class we have $Y_i = \frac{n_2}{n}$. Here, $n_1$ and $n_2$ are the number of observations from the first and second classes, and also $n = n_1 + n_2$.
+
+\subsection{part 1}
+Using the definition of the discriminant function, show that LDA labels the sample $X$ of the second class if:
+\[
+\frac{\mu_2 - \mu_1}{\sigma^2} X > \frac{\mu_2^2 - \mu_1^2}{2\sigma^2} - \log \frac{n_2}{n_1}
+\]
+And otherwise, it is labeled as the first class.
+
+\begin{qsolve}
+	\begin{qsolve}[]
+		in below question not that  $X_i$ is the feature value for observation $i$,$n$ is the total number of observations and $n_1$ and $n_2$are the number of observations in class 1 and class 2.
+	  
+		In LDA, we can define the linear discriminant function as below when $\mu_1$ and $\mu_2$ are the means of class 1 and class 2,$\sigma^2$ is the common variance assumed for both classes and $\pi_1 = \left(\frac{n_1}{n}\right)$ and $\pi_2 = \left(\frac{n_2}{n}\right)$ are the prior probabilities of class 1 and class 2.
+		\begin{align*}
+			\delta_1(X) &= X \cdot \frac{\mu_1}{\sigma^2} - \frac{\mu_1^2}{2\sigma^2} + \log(\pi_1) \\
+			\delta_2(X) &= X \cdot \frac{\mu_2}{\sigma^2} - \frac{\mu_2^2}{2\sigma^2} + \log(\pi_2)
+		  \end{align*}
+		  if $\delta_1(X) > \delta_2(X)$, then the sample is labeled as class 1 and if $\delta_1(X) < \delta_2(X)$, then the sample is labeled as class 2.so we have:
+		  $$ \delta_2(X) > \delta_1(X) = X \cdot \frac{\mu_2}{\sigma^2} - \frac{\mu_2^2}{2\sigma^2} + \log(\pi_2) > X \cdot \frac{\mu_1}{\sigma^2} + \frac{\mu_1^2}{2\sigma^2} - \log(\pi_1) $$
+		  $$ \Rightarrow X \cdot \frac{\mu_2 - \mu_1}{\sigma^2} > \frac{\mu_2^2 - \mu_1^2}{2\sigma^2} - \log \frac{\pi_1}{\pi_2} = \frac{\mu_2^2 - \mu_1^2}{2\sigma^2} - \log \frac{n_2}{n_1} $$
+		  $$ \Rightarrow X \cdot \frac{\mu_2 - \mu_1}{\sigma^2} > \frac{\mu_2^2 - \mu_1^2}{2\sigma^2} - \log \frac{n_2}{n_1} $$
+		  so if $X \cdot \frac{\mu_2 - \mu_1}{\sigma^2} > \frac{\mu_2^2 - \mu_1^2}{2\sigma^2} - \log \frac{n_2}{n_1}$, the sample is labeled as class 2 and otherwise, it is labeled as class 1.
+		\end{qsolve}
+\end{qsolve}
+
+\subsection{part 2}
+Show that the least squares estimate of $\beta_1$ in the linear regression model $Y_i = \beta_0 + \beta_1 X_i$ is equal to a multiple (which is only dependent on $n$) of LDA coefficient for $X$ in part 1.
+
+\begin{qsolve}
+	\begin{qsolve}[]
+		in linear regression, we can define the least squares estimate of $\beta_1$ as below:
+		$$
+		\hat{\beta}_1 = \frac{\sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^{n} (X_i - \bar{X})^2}
+		$$
+		where $\bar{X}$ and $\bar{Y}$ are the sample means of $X$ and $Y$. so we have. based on the condition of part 1 we can define $Y_i = -\frac{n}{n_1}$ for class 1 and $Y_i = \frac{n}{n_2}$ for class 2. so we have:
+		$$
+		\hat{\beta}_1 = \frac{\sum_{i=1}^{n_1} (X_{1,i} - \overline{X}) \left(-\frac{n}{n_1}\right) + \sum_{i=1}^{n_2} (X_{2,i} - \overline{X}) \left(\frac{n}{n_2}\right)}{\sum_{i=1}^n (X_i - \overline{X})^2}
+		$$
+		if we define $\mu_1 = \frac{1}{n_1} \sum_{i=1}^{n_1} X_{1,i}$ and $\mu_2 = \frac{1}{n_2} \sum_{i=1}^{n_2} X_{2,i}$ and $\sigma^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \overline{X})^2$ we have:
+		$$
+		\hat{\beta}_1 = \frac{\left(-\frac{n}{n_1}\right)(n_1\mu_1 - n\overline{X}) + \left(\frac{n}{n_2}\right)(n_2\mu_2 - n\overline{X})}{(n-1)\sigma^2}
+		$$
+		$$
+		\Rightarrow \hat{\beta}_1 = \frac{n (\mu_2 - \mu_1)}{n-1} \cdot \frac{1}{\sigma^2} = \frac{n}{n-1} \cdot \frac{\mu_2 - \mu_1}{\sigma^2}
+		$$
+		so we can say that the least squares estimate of $\beta_1$ in the linear regression model $Y_i = \beta_0 + \beta_1 X_i$ is equal to a multiple of LDA coefficient for $X$ in part 1.
+	\end{qsolve}
+\end{qsolve}
+
+\subsection{part 3}
+Using the previous results, conclude that LDA is equal to comparing the output of linear model $\beta_0 + \beta_1 X$ with a constant.
+
+\begin{qsolve}
+	\begin{qsolve}[]
+		in part 1 we showed that LDA labels the sample $X$ of the second class if:
+		$$
+		\frac{\mu_2 - \mu_1}{\sigma^2} X > \frac{\mu_2^2 - \mu_1^2}{2\sigma^2} - \log \frac{n_2}{n_1}
+		$$
+		so we can say that:
+		$$
+		\frac{n-1}{n} \cdot \hat{\beta}_1 X > \frac{n}{n-1} \cdot \frac{\mu_2^2 - \mu_1^2}{2\sigma^2} - \log \frac{n_2}{n_1}
+		$$
+		$$
+		\Rightarrow \hat{\beta}_1 X > \frac{\mu_2^2 - \mu_1^2}{2\sigma^2} - \log \frac{n_2}{n_1}
+		$$
+		$$
+		\Rightarrow \hat{\beta}_0 + \hat{\beta}_1 X > \hat{\beta}_0 + \frac{\mu_2^2 - \mu_1^2}{2\sigma^2} - \log \frac{n_2}{n_1}
+		$$
+		wich the right hand of the inequality is constant.so we can say that LDA is equal to comparing the output of linear model $\beta_0 + \beta_1 X$ with a constant.
+	\end{qsolve}
+\end{qsolve}
