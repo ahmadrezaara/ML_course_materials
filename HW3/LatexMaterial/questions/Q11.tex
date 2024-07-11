@@ -1,0 +1,254 @@
+\section{Optimizing Deep Learning Models}
+
+In this question, we are going to discuss the \textit{Momentum} in optimization algorithms.
+
+\subsection{Momentum in Optimization}
+
+Recall the \textit{Gradient Descent} algorithm:
+\[
+\theta_{t+1} = \theta_t - \alpha \nabla f(\theta_t)
+\]
+Where \(\theta_t\) is the parameters at time \(t\), \(\alpha\) is the learning rate, and \(\nabla f(\theta_t)\) is the gradient of the loss function with respect to the parameters.
+
+The \textit{Momentum} algorithm is an extension of the \textit{Gradient Descent} algorithm that adds a momentum term to the update rule:
+\[
+\begin{aligned}
+v_{t+1} &= \beta v_t + (1 - \beta) \nabla f(\theta_t) \\
+\theta_{t+1} &= \theta_t - \alpha v_{t+1}
+\end{aligned}
+\]
+Where \(v_t\) is the momentum term, and \(\beta\) is the momentum parameter.
+\subsubsection{Questions 1}
+
+The \textit{Nesterov Accelerated Gradient} (NAG) algorithm is an extension of the \textit{Momentum} algorithm that adds a correction term to the update rule:
+\[
+\begin{aligned}
+v_{t+1} &= \beta v_t + (1 - \beta) \nabla f(\theta_t - \alpha v_t) \\
+\theta_{t+1} &= \theta_t - \alpha v_{t+1}
+\end{aligned}
+\]
+Explain how the NAG algorithm works and how it improves the training process compared to the \textit{Momentum} algorithm.
+\begin{qsolve}
+    \begin{qsolve}[]
+        The NAG algorithm modifies the standard Momentum algorithm by incorporating a lookahead approach. Instead of calculating the gradient at the current parameters, NAG calculates the gradient at the estimated future position of the parameters.
+
+\textbf{Nesterov Accelerated Gradient (NAG):} \\
+The Nesterov Accelerated Gradient (NAG) algorithm improves upon the Momentum algorithm by introducing a lookahead step that calculates the gradient at the future position of the parameters. This results in faster convergence, improved stability, and more adaptive updates during the training process. The anticipatory nature of NAG helps in making more informed and precise updates, thus enhancing the overall optimization efficiency.
+
+1. \textbf{Lookahead step:} Compute the gradient at the anticipated future position:
+\[
+v_{t+1} = \beta v_t + (1 - \beta) \nabla f(\theta_t - \alpha v_t)
+\]
+\splitqsolve[\splitqsolve]
+2. \textbf{Update the parameters:}
+\[
+\theta_{t+1} = \theta_t - \alpha v_{t+1}
+\]
+
+\textbf{Explanation and Improvements}
+
+1. \textbf{Lookahead Gradient Calculation:} In the Momentum algorithm, the gradient is calculated at the current position, which may lead to overshooting if the momentum term is large.
+
+   In NAG, the gradient is calculated at the anticipated future position, considering the momentum term, which provides a more accurate direction of where the parameters are heading. This "lookahead" helps in reducing the chances of overshooting and provides a corrective mechanism.
+
+2. \textbf{Faster Convergence:} NAG tends to have faster convergence compared to the Momentum algorithm. The lookahead step allows the algorithm to make more informed updates, thus reducing the number of iterations required to reach the optimal solution.
+
+3. \textbf{Improved Stability:} By considering the future position, NAG helps in smoothing out the oscillations that might occur in the Momentum algorithm. This makes the training process more stable and helps in converging to the minimum more reliably.
+
+4. \textbf{Adaptive Updates:} The lookahead mechanism in NAG adapts the update direction based on the anticipated future state, making it more responsive to the contours of the loss surface. This adaptability helps in navigating the loss landscape more effectively, especially in scenarios with high curvature.
+
+    \end{qsolve}
+\end{qsolve}
+\subsubsection{Questions 2}
+
+The \textit{Adagrad} algorithm is an adaptive learning rate optimization algorithm that scales the learning rate based on the historical gradients:
+\[
+\begin{aligned}
+g_{t+1} &= g_t + (\nabla f(\theta_t))^2 \\
+\theta_{t+1} &= \theta_t - \frac{\alpha}{\sqrt{g_{t+1}} + \epsilon} \nabla f(\theta_t)
+\end{aligned}
+\]
+Explain how the Adagrad algorithm works and how it improves the training process compared to the \textit{Momentum} algorithm.
+\begin{qsolve}
+    \begin{qsolve}[]
+        The Adagrad (Adaptive Gradient Algorithm) is an optimization method that adapts the learning rate for each parameter individually, based on the gradients' historical squared values. This approach is particularly useful for handling sparse data, common in fields like natural language processing and image recognition.
+        \splitqsolve[\splitqsolve]
+        Adagrad modifies the general learning rate at each time step for each parameter, based on the past gradients that have been computed for that parameter. Here’s how the algorithm updates the parameters:
+
+        1. \textbf{Accumulate the Square of the Gradients:} For each parameter, accumulate the square of the gradients:
+        \[
+        g_{t+1} = g_t + (\nabla f(\theta_t))^2
+        \]
+
+        Here, \( g_t \) represents the sum of the squares of the gradients up to time \( t \) for each parameter.
+
+        2. \textbf{Parameter Update:} Adjust the parameters using the formula:
+        \[
+        \theta_{t+1} = \theta_t - \frac{\alpha}{\sqrt{g_{t+1}} + \epsilon} \nabla f(\theta_t)
+        \]
+
+        - \(\alpha\) is the initial learning rate. \\
+        - \(\epsilon\) is a small smoothing term added to the denominator to avoid division by zero (typically on the order of 1e-8).
+
+        \textbf{Key Features of Adagrad}
+        \begin{enumerate}
+            \item \textbf{Adaptive Learning Rates:} Each parameter has its own learning rate, which decreases monotonically over time.
+            \item \textbf{Automatic Handling of Sparse Data:} Adagrad is particularly effective in scenarios where some features are observed infrequently.
+        \end{enumerate}
+        \textbf{Improvements Over the Momentum Algorithm}
+        Adagrad provides specific improvements over traditional methods like the Momentum algorithm in several key ways:
+        \begin{enumerate}
+            \item \textbf{Eliminates Need for Manual Tuning of the Learning Rate:} Since Adagrad adapts the learning rate to each parameter based on historical data, it reduces the need for manual tuning of the learning rate.
+            \item \textbf{Better Handling of Sparse Data:} Adagrad can be particularly effective at navigating the challenges of sparse data, as its adaptive learning rate increases the model’s sensitivity to less frequent features.
+            \item \textbf{Prevents Overshooting in the Late Stages of Training:} As the learning rate is effectively reduced over time, it helps prevent overshooting the minima, which can be a problem with Momentum when the learning rate is not adequately decreased.
+        \end{enumerate}
+        \textbf{Limitations of Adagrad}
+        Despite its benefits, Adagrad has limitations, particularly in deep learning contexts:
+        \begin{enumerate}
+            \item \textbf{Aggressive Learning Rate Reduction:} The learning rate can become excessively small, potentially causing the algorithm to stop learning before reaching the global optimum.
+            \item \textbf{Inadequate for Non-Sparse Data:} In scenarios with dense data, the rapid decrease in learning rate may hinder the model’s performance.
+        \end{enumerate}
+    \end{qsolve}
+\end{qsolve}
+\subsection{Adam Optimizer}
+
+The \textit{Adam} optimizer is an adaptive learning rate optimization algorithm that combines the ideas of \textit{Momentum} and \textit{Adagrad}. Here is the update rule of the Adam optimizer:
+\[
+\begin{aligned}
+g_t &= \nabla f(\theta_{t-1}) \\
+m_t &= \beta_1 m_{t-1} + (1 - \beta_1) g_t \\
+v_t &= \beta_2 v_{t-1} + (1 - \beta_2) g_t^2 \\
+\hat{m}_t &= \frac{m_t}{1 - \beta_1^t} \\
+\hat{v}_t &= \frac{v_t}{1 - \beta_2^t} \\
+\theta_t &= \theta_{t-1} - \alpha \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}
+\end{aligned}
+\]
+
+\subsubsection{part 1}
+Explain how the \textit{Adam} optimizer works and how it improves the training process compared to the \textit{Momentum} algorithm, line by line.
+\begin{qsolve}
+    \begin{qsolve}[]
+        The Adam (Adaptive Moment Estimation) optimizer combines the advantages of both Momentum and Adagrad by incorporating the concepts of momentum for acceleration and adaptive learning rates. Here’s a detailed explanation of how the Adam optimizer works and how it improves the training process compared to the Momentum algorithm.
+
+        \textbf{Update Rule of Adam}
+
+        The update rules for the Adam optimizer are as follows:
+        1. \textbf{Gradient Calculation:}
+        \[
+        g_t = \nabla f(\theta_{t-1})
+        \]
+        \( g_t \): Gradient of the loss function with respect to the parameters at time step \( t \).
+
+        2. \textbf{First Moment Estimate (Momentum term):}
+        \[
+        m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t
+        \]
+        \( m_t \): Exponentially decaying average of past gradients (similar to the velocity term in Momentum). \\
+        \( \beta_1 \): Decay rate for the first moment, typically close to 1 (e.g., 0.9).
+
+        3. \textbf{Second Moment Estimate (RMSprop-like term):}
+        \[
+        v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2
+        \]
+        \( v_t \): Exponentially decaying average of past squared gradients. \\
+        \( \beta_2 \): Decay rate for the second moment, typically close to 1 (e.g., 0.999).
+        \splitqsolve[\splitqsolve]
+        4. \textbf{Bias-Corrected First Moment Estimate:}
+        \[
+        \hat{m}_t = \frac{m_t}{1 - \beta_1^t}
+        \]
+        \( \hat{m}_t \): Bias-corrected first moment estimate to counteract the initialization bias towards zero.
+
+        5. \textbf{Bias-Corrected Second Moment Estimate:}
+        \[
+        \hat{v}_t = \frac{v_t}{1 - \beta_2^t}
+        \]
+        \( \hat{v}_t \): Bias-corrected second moment estimate to counteract the initialization bias towards zero.
+
+        6. \textbf{Parameter Update:}
+        \[
+        \theta_t = \theta_{t-1} - \alpha \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}
+        \]
+        \( \alpha \): Learning rate. \\
+        \( \epsilon \): Small constant to prevent division by zero (typically \(10^{-8}\)).
+
+        \textbf{How Adam Improves Training Compared to Momentum}
+        \begin{enumerate}
+            \item \textbf{Adaptive Learning Rate:} Momentum uses a fixed learning rate for all parameters, which can be suboptimal if the gradients vary significantly in magnitude.Adam adapts the learning rate for each parameter based on the first and second moment estimates, allowing for more nuanced updates. This results in more efficient convergence, especially in the presence of sparse gradients.    
+            \item \textbf{Bias Correction:} Momentum lacks explicit mechanisms to correct the bias introduced in the initial stages of training.Adam includes bias correction terms for the first and second moment estimates, which helps in stabilizing the learning process early in training. This ensures that the optimizer does not underestimate the effective learning rate.
+            \item \textbf{Combining Momentum and RMSprop:} Momentum relies solely on the past gradients' exponentially decaying average, which helps smooth out the updates but may be insufficient for highly non-stationary data.Adam combines the benefits of Momentum (by using first moment estimates) and RMSprop (by using second moment estimates), providing a more robust optimization process that can handle noisy and sparse gradients effectively.
+        \end{enumerate}
+    \end{qsolve}
+\end{qsolve}
+\subsubsection{part 2}
+Explain why \(m_t\) have a bias towards zero in the early stages of training and how \(\hat{m}_t\) corrects this bias.
+\begin{qsolve}
+    \begin{qsolve}[]
+        below equations hold in the early stages of training:
+        \splitqsolve[\splitqsolve]
+        \[
+        \begin{aligned}
+        m_0 &= 0 \\
+        m_1 &= \beta_1 m_0 + (1 - \beta_1) g_1 = (1 - \beta_1) g_1 \\
+        m_2 &= \beta_1 m_1 + (1 - \beta_1) g_2 = \beta_1 (1 - \beta_1) g_1 + (1 - \beta_1) g_2 \\
+        m_3 &= \beta_1 m_2 + (1 - \beta_1) g_3 = \beta_1^2 (1 - \beta_1) g_1 + \beta_1 (1 - \beta_1) g_2 + (1 - \beta_1) g_3 \\
+        m_t &= (1 - \beta_1) \sum_{i=1}^t \beta_1^{t-i} g_i
+        \end{aligned}
+        \]
+
+        As you can see, the further we go expanding the value of \( m \), the less first values of gradients contribute to the overall value, as they get multiplied by smaller and smaller beta. Capturing this pattern, we can rewrite the formula for our moving average:
+
+        \[
+        m_t = (1 - \beta_1) \sum_{i=0}^t \beta_1^i g_{t-i}
+        \]
+
+        To calculate bias, we calculate expected value:
+
+        \[
+        \begin{aligned}
+        E[m_t] &= E[(1 - \beta_1) \sum_{i=1}^t \beta_1^{t-i} g_i] \\
+        &= E[g_t] (1 - \beta_1) \sum_{i=1}^t \beta_1^{t-i} + \epsilon \\
+        &= E[g_t] (1 - \beta_1) \frac{1}{1 - \beta_1} \\
+        &= E[g_t] + \epsilon
+        \end{aligned}
+        \]
+
+        Because the approximation is taking place, the error \( \epsilon \) emerge in the formula (\( \epsilon \) is a very small number). Since \( m \) and \( v \) are estimates of first and second moments, we want to have the following property:
+
+        \[
+        \begin{aligned}
+        E[m_t] &= E[g_t] \\
+        E[v_t] &= E[g_t^2]
+        \end{aligned}
+        \]
+
+        If we use
+
+        \[
+        \hat{m}_t = \frac{m_t}{1 - \beta_1^t}
+        \]
+        \[
+        \hat{v}_t = \frac{v_t}{1 - \beta_2^t}
+        \]
+
+        We have:
+
+        \[
+        E[\hat{m}_t] = E\left[ \frac{m_t}{1 - \beta_1^t} \right] = \frac{E[g_t](1 - \beta_1^t) + \epsilon}{1 - \beta_1^t} = E[g_t] + \text{very small number}
+        \]
+
+        1. \textbf{Bias Towards Zero:} \( m_t \) and \( v_t \) are initialized at zero and are calculated using exponential moving averages. Early in training, especially when \( t \) is small, \( m_t \) and \( v_t \) will be biased towards zero because the moving averages are dominated by their initial values (zeros).
+        \splitqsolve[\splitqsolve]
+        2. \textbf{Correction:} To correct this bias, Adam incorporates bias-corrected estimates \( \hat{m}_t \) and \( \hat{v}_t \). The bias correction formulas are:
+
+        \[
+        \hat{m}_t = \frac{m_t}{1 - \beta_1^t}
+        \]
+        \[
+        \hat{v}_t = \frac{v_t}{1 - \beta_2^t}
+        \]
+
+        These corrections effectively normalize \( m_t \) and \( v_t \), compensating for their initial bias towards zero, especially in the early stages of training. This ensures that the estimates accurately reflect the actual magnitudes of the gradients and their squares.
+
+    \end{qsolve}
+\end{qsolve}

@@ -1,0 +1,107 @@
+\section{Backpropagation Algorithm2}
+
+Consider the following convolutional network with given layers.
+
+\textbf{Layer1 : Convolutional}
+$
+\left\{
+\begin{aligned}
+\text{Input} : & \quad \mathbf{x} = \begin{bmatrix}
+x_{11} & x_{12} \\
+x_{21} & x_{22}
+\end{bmatrix} \\
+\text{Filter} : & \quad \mathbf{v}_1 = \begin{bmatrix}
+w_1 & w_2
+\end{bmatrix} \\
+\text{Output} : & \quad z_1 = \tanh(\mathbf{x} * \mathbf{v}_1)
+\end{aligned}
+\right.
+$
+
+\textbf{Layer2 : Fully-connected}
+$
+\left\{
+\begin{aligned}
+\text{Input} : & \quad z_1 \\
+\text{Filter} : & \quad \mathbf{v}_2 = \begin{bmatrix}
+w_{31} & w_{32} \\
+w_{41} & w_{42}
+\end{bmatrix} \\
+\text{Output} : & \quad z_2 = \sigma(\mathbf{v}_2 \times z_1)
+\end{aligned}
+\right.
+$
+
+\textbf{Layer3 : Fully-connected}
+$
+\left\{
+\begin{aligned}
+\text{Input} : & \quad z_2 \\
+\text{Filter} : & \quad \mathbf{v}_3 = \begin{bmatrix}
+w_5 & w_6
+\end{bmatrix} \\
+\text{Output} : & \quad y^* = \mathbf{v}_3 \times z_2
+\end{aligned}
+\right.
+$
+
+Using backpropagation algorithm, obtain the derivative of \((y^* - y)^2\) with respect to \(w_1\).
+\begin{qsolve}
+    \begin{qsolve}[]
+        we can say that:
+        $$L = (y^* - y)^2$$
+        $$\frac{\partial L}{\partial w_1} = \frac{\partial L}{\partial y^*} \times \frac{\partial y^*}{\partial z_2} \times \frac{\partial z_2}{\partial z_1} \times \frac{\partial z_1}{\partial w_1}$$
+        we have:
+        $$z_1 = \begin{bmatrix}
+        z_{11}\\
+        z_{12}
+        \end{bmatrix} = \begin{bmatrix}
+        \tanh(x_{11}w_1 + x_{12}w_2)\\
+        \tanh(x_{21}w_1 + x_{22}w_2)
+        \end{bmatrix}$$
+        in the second layer we have:
+        $$z_2 = \begin{bmatrix}
+        z_{21}\\
+        z_{22}
+        \end{bmatrix} = \begin{bmatrix}
+        \sigma(w_{31}z_{11} + w_{32}z_{12})\\
+        \sigma(w_{41}z_{11} + w_{42}z_{12})
+        \end{bmatrix}$$
+        and in the third layer we have:
+        $$y^* = w_5z_{21} + w_6z_{22}$$
+        so we can say:
+        $$\frac{\partial L}{\partial y^*} = 2(y^* - y)$$
+        $$\frac{\partial y^*}{\partial z_2} = \begin{bmatrix}  
+        w_5\\
+        w_6
+        \end{bmatrix}$$
+        $$\frac{\partial z_2}{\partial z_1} = \begin{bmatrix}
+        \sigma'(w_{31}z_{11} + w_{32}z_{12})w_{31} & \sigma'(w_{31}z_{11} + w_{32}z_{12})w_{32}\\
+        \sigma'(w_{41}z_{11} + w_{42}z_{12})w_{41} & \sigma'(w_{41}z_{11} + w_{42}z_{12})w_{42}
+        \end{bmatrix}$$
+        where we know that:
+        \splitqsolve[\splitqsolve]
+        $$\sigma'(x) = \sigma(x)(1 - \sigma(x))$$
+        $$\frac{\partial z_1}{\partial w_1} = \begin{bmatrix}
+        x_{11}(1 - \tanh^2(x_{11}w_1 + x_{12}w_2))\\
+        x_{21}(1 - \tanh^2(x_{21}w_1 + x_{22}w_2))
+        \end{bmatrix}$$
+        so we can say:
+        $$\frac{\partial L}{\partial w_1} = 2(y^* - y) \begin{bmatrix}
+        w_5\\
+        w_6
+        \end{bmatrix} \begin{bmatrix}
+        \sigma'(w_{31}z_{11} + w_{32}z_{12})w_{31} & \sigma'(w_{31}z_{11} + w_{32}z_{12})w_{32}\\
+        \sigma'(w_{41}z_{11} + w_{42}z_{12})w_{41} & \sigma'(w_{41}z_{11} + w_{42}z_{12})w_{42}
+        \end{bmatrix}$$
+        $$ \begin{bmatrix}
+        x_{11}(1 - \tanh^2(x_{11}w_1 + x_{12}w_2))\\
+        x_{21}(1 - \tanh^2(x_{21}w_1 + x_{22}w_2))
+        \end{bmatrix}$$
+        so we can say that:
+        \begin{center}
+            $\frac{\partial L}{\partial w_1} = 2(y^* - y)[w_5 \sigma'(w_{31}z_{11}+w_{32}z_{12})(w_{31} z_{11}(1 - \tanh^2(x_{11} w_1 + x_{12} w_2))$
+            $ + w_{32} z_{21}(1 - \tanh^2(x_{21} w_1 + x_{22} w_2))) + w_6 \sigma'(w_{41}z_{11}+w_{42}z_{12})(w_{41} z_{11}(1 - \tanh^2(x_{11} w_1 + x_{12} w_2)) + w_{42} z_{21}(1 - \tanh^2(x_{21} w_1 + x_{22} w_2))) ]$
+        \end{center}
+    \end{qsolve}
+\end{qsolve}

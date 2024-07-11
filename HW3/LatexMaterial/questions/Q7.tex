@@ -1,0 +1,59 @@
+\section{CNNs are universal approximators}
+
+We know that CNNs are universal approximators. It means that any function can be approximated using CNNs. We know the same thing about MLPs and we know MLPs are universal approximators, too. For more information on this subject and seeing the proof for these statements, see \href{https://arxiv.org/pdf/2305.08404}{this link} and \href{https://www.cs.cmu.edu/~epxing/Class/10715/reading/Kornick_et_al.pdf}{this link}.
+
+Now, we are looking to find out that if we can make an equivalent MLP from a CNN or not? If yes, please explain and say under what situation and circumstance we can find out the equivalent MLP. If not, please explain why under no circumstances, we can not find an equivalent MLP.
+
+(For the sake of simplicity, you can explain your reasons and/or ideas on a 2D image \(X\) with dimensions \(3 \times 3 \times 1\) and kernel \(F\) with dimensions \(2 \times 2\) and then, explain how can your idea/explanations be generalized to higher dimensions)
+\begin{qsolve}
+    \begin{qsolve}[]
+        first we consider a 2D image \(X\) with dimensions \(3 \times 3 \times 1\) and kernel \(F\) with dimensions \(2 \times 2\).
+        \[
+            X = \begin{bmatrix}
+                x_{1,1} & x_{1,2} & x_{1,3} \\
+                x_{2,1} & x_{2,2} & x_{2,3} \\
+                x_{3,1} & x_{3,2} & x_{3,3} \\
+            \end{bmatrix} \quad
+            F = \begin{bmatrix}
+                f_{1,1} & f_{1,2} \\
+                f_{2,1} & f_{2,2} \\
+            \end{bmatrix}
+        \]
+        using the convolution operation, we can calculate the output of the convolutional layer as:
+        $$
+            O = X * F = \begin{bmatrix}
+                o_{1,1} & o_{1,2} \\
+                o_{2,1} & o_{2,2} \\
+            \end{bmatrix} = 
+        $$
+        $$
+            \begin{bmatrix}
+                x_{1,1}f_{1,1} + x_{1,2}f_{1,2} + x_{2,1}f_{2,1} + x_{2,2}f_{2,2} & x_{1,2}f_{1,1} + x_{1,3}f_{1,2} + x_{2,2}f_{2,1} + x_{2,3}f_{2,2} \\
+                x_{2,1}f_{1,1} + x_{2,2}f_{1,2} + x_{3,1}f_{2,1} + x_{3,2}f_{2,2} & x_{2,2}f_{1,1} + x_{2,3}f_{1,2} + x_{3,2}f_{2,1} + x_{3,3}f_{2,2} \\
+            \end{bmatrix}
+        $$
+        as we know the input of the MLP is the flattened version of the input image so the input of MLP is:
+        $$
+            X_{flattened} = \begin{bmatrix}
+                x_{1,1} & x_{1,2} & x_{1,3} & x_{2,1} & x_{2,2} & x_{2,3} & x_{3,1} & x_{3,2} & x_{3,3}
+            \end{bmatrix}
+        $$
+        now to construct the equivalent MLP, we need to find the weights of the MLP. the below equation shows the relation in MLP:
+        $$
+            O = W \cdot X_{flattened}^T + b 
+        $$
+        so we can construct the weight matrix \(W\) as:
+        \[
+            W = \begin{bmatrix}
+            f_{11} & f_{12} & 0 & f_{21} & f_{22} & 0 & 0 & 0 & 0 \\
+            0 & f_{11} & f_{12} & 0 & f_{21} & f_{22} & 0 & 0 & 0 \\
+            0 & 0 & 0 & f_{11} & f_{12} & 0 & f_{21} & f_{22} & 0 \\
+            0 & 0 & 0 & 0 & f_{11} & f_{12} & 0 & f_{21} & f_{22}
+            \end{bmatrix}
+        \]
+        \splitqsolve[\splitqsolve]
+        so we can see that we can construct an equivalent MLP from a CNN. in a more general case, we can construct an equivalent MLP from a CNN by flattening the input and constructing the weight matrix as shown above. for some CNNs, we will need to add a bias term to the MLP to make it equivalent to the CNN.
+        
+        for example for a 3D image \(X\) and a 3D kernel \(F\), we can flatten the input and construct the weight matrix as shown above. in this case, we will need to add a bias term to the MLP to make it equivalent to the CNN.
+    \end{qsolve}
+\end{qsolve}

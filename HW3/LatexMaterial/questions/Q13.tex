@@ -1,0 +1,39 @@
+\section{LSTM}
+
+Consider a standard LSTM cell with input dimension $n$, hidden state dimension $m$, and forget gate, input gate, and output gate activation functions denoted as $f(t)$, $i(t)$, and $o(t)$ respectively. Let $W_f$, $W_i$, and $W_o$ represent the weight matrices associated with these gates. Additionally, let $U_f$, $U_i$, and $U_o$ represent the recurrent weight matrices.
+
+Given an input sequence $x(t)$, an initial hidden state $h(0)$, and the LSTM equations:
+
+\begin{align*}
+f(t) &= \sigma(W_f x(t) + U_f h(t-1) + b_f) \\
+i(t) &= \sigma(W_i x(t) + U_i h(t-1) + b_i) \\
+o(t) &= \sigma(W_o x(t) + U_o h(t-1) + b_o) \\
+\tilde{c}(t) &= \tanh(W_x x(t) + U_h h(t-1) + b_c) \\
+c(t) &= f(t) \odot c(t-1) + i(t) \odot \tilde{c}(t) \\
+h(t) &= o(t) \odot \tanh(c(t))
+\end{align*}
+
+where $\sigma$ is the sigmoid function, $\odot$ denotes element-wise multiplication, and $\tilde{c}(t)$ is the candidate cell state.
+
+Prove that the LSTM cell can learn to remember information over long sequences by showing that the derivative of the cell state $c(t)$ with respect to $c(t-1)$ does not vanish as $t$ increases.
+\begin{qsolve}
+    \begin{qsolve}[]
+        To comprehend why the full gradient approach in LSTM helps avoid the vanishing gradient problem, we need to delve into the recursive gradient analysis. Let's expand the full derivative for $\frac{\partial C_t}{\partial C_{t-1}}$ to understand the dynamics.
+
+        Recall that in an LSTM, the cell state $C_t$ depends on the forget gate $f_t$, input gate $i_t$, and candidate cell state $\tilde{C}_t$, all of which are functions of the previous cell state $C_{t-1}$ and the hidden state $h_{t-1}$. Using the multivariate chain rule, we can express the derivative as follows:
+
+        \[
+        \frac{\partial C_t}{\partial C_{t-1}} = \frac{\partial C_t}{\partial f_t} \cdot \frac{\partial f_t}{\partial C_{t-1}} + \frac{\partial C_t}{\partial i_t} \cdot \frac{\partial i_t}{\partial C_{t-1}} + \frac{\partial C_t}{\partial \tilde{C}_t} \cdot \frac{\partial \tilde{C}_t}{\partial C_{t-1}} + \frac{\partial C_t}{\partial C_{t-1}}
+        \]
+
+        Breaking down these derivatives, we get:
+        \splitqsolve[\splitqsolve]
+        \[
+        \frac{\partial C_t}{\partial C_{t-1}} = f_t + i_t \cdot \tanh'(W_c x_t + U_c h_{t-1} + b_c) \cdot W_c + \tilde{C}_t \cdot \sigma'(W_i x_t + U_i h_{t-1} + b_i) \cdot W_i
+        \]
+
+        For the backpropagation through time, if we consider $k$ time steps, we multiply similar terms recursively. Unlike vanilla RNNs, where terms $\frac{\partial h_t}{\partial h_{t-1}}$ may tend to zero or infinity causing vanishing/exploding gradients, LSTM gates help maintain gradients in a controlled manner.
+        
+        The forget gate $f_t$ and input gate $i_t$ can be close to zero or one, which helps in preserving the gradient flow. The candidate cell state $\tilde{C}_t$ is also controlled by the $\tanh$ function, which helps in maintaining the gradient. Thus, the LSTM architecture can learn to remember information over long sequences by preventing the vanishing gradient problem.
+    \end{qsolve}
+\end{qsolve}
