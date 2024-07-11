@@ -1,4 +1,4 @@
-this folder is my first theorical assignment. it is about fundamentals of machine learning like statistics, probability, linear algebra and optimization. here is the list of questions and a brief explanation about each:
+this folder is my first theorical assignment. it is about fundamentals of machine learning like statistics, probability, linear algebra and optimization. here is the list of questions and a brief explanation. about each. the latex source is in the folder called LatexMaterial. feel free to make changes in them.
 - [x] Q1.1 A simple Random Walk: Calculate the probability of a machine showing 0 on its monitor again after T rounds.
 - [x] Q1.2 Everything is possible!: Show that the probability of seeing 0 again converges to 1 as T goes to infinity.
 - [x] Q1.3 A naive algorithm: Calculate the expected time for a machine to guess a random vector completely matching a secret.
