@@ -1,0 +1,256 @@
+\section{ Its all about Tails}
+\subsection{Not a very hard inequality}
+Consider random variable $X$, with $\mathbb{E}[X] = 0$ and $Var[X] = \sigma ^2$.
+show that for each a > 0, we have:
+$$P[X \geq a] \leq \dfrac{\sigma^2}{\sigma^2 + a^2}$$
+\begin{qsolve}
+	we can use markov's inequality to solve this question. this inequality states that:
+	\begin{qsolve}[]
+		\begin{center}
+			markov's inequality:
+		\end{center}
+		If $X$ is a non-negative random variable and $a > 0$, then:
+		$$\mathbb{P}(X \geq a) \leq \dfrac{\mathbb{E}[X]}{a}$$
+	\end{qsolve}
+		using this inequality we have:
+	\begin{qsolve}[]
+		$$\mathbb{P}(X \geq a) = \mathbb{P}(X + \frac{\sigma ^2 }{a} \geq a + \frac{\sigma ^2 }{a}) = \mathbb{P}((X+ \frac{\sigma ^2 }{a})^2 \geq (a + \frac{\sigma ^2 }{a})^2) \leq \dfrac{\mathbb{E}[(X+ \frac{\sigma ^2 }{a})^2]}{(a + \frac{\sigma ^2 }{a})^2}$$
+		we also know that:
+		$$\mathbb{E}[(X+ \frac{\sigma ^2 }{a})^2] = Var(X + \frac{\sigma ^2 }{a}) + \mathbb{E}[X + \frac{\sigma ^2 }{a}]^2 = \sigma ^2 + \frac{\sigma ^4 }{a^2}$$
+		so we have:
+		$$\mathbb{P}(X \geq a) \leq \dfrac{\sigma ^2 + \frac{\sigma ^4 }{a^2}}{(a + \frac{\sigma ^2 }{a})^2} = \dfrac{\frac{\sigma ^2 (a^2 + \sigma ^2)}{a^2}}{\frac{(a^2 + \sigma^2)^2}{a^2}} = \dfrac{\sigma ^2}{a^2 + \sigma^2}$$
+	\end{qsolve}
+\end{qsolve}
+\subsection{Gaussian}
+Show that for $X \sim \mathcal{N} (0, \sigma2)$ and for each $s \in \mathbb{R}$, we have:
+$$\mathbb{E}[e^{sX}] \leq e^{\frac{s^2\sigma^2}{2}}$$
+\begin{qsolve}
+	\begin{qsolve}[]
+		$$\mathbb{E}[e^{sX}] =\int_{-\infty}^{\infty} e^{sx} f_x(X) dx = \int_{-\infty}^{\infty} e^{sx} \dfrac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{x^2}{2\sigma^2}} dx = \dfrac{1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{\infty} e^{sx -\frac{x^2}{2\sigma^2}} dx$$
+		\splitqsolve[\splitqsolve]
+		we can complete the square in the exponent:
+		$$sx -\frac{x^2}{2\sigma^2} = -(\frac{x^2}{2\sigma^2}-sx + (\frac{\sqrt{2}\sigma s}{2})^2) + (\frac{\sigma s}{\sqrt{2}})^2$$
+		so we have:
+		$$\mathbb{E}[e^{sX}] = \dfrac{e^{\frac{\sigma^2 s^2}{2}}}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{\infty} e^{-(\frac{x}{\sqrt{2}\sigma} - \frac{\sigma s}{\sqrt{2}})^2} dx$$
+		we define $ u = \frac{x}{\sqrt{2}\sigma} - \frac{\sigma s}{\sqrt{2}}$ so $du = \frac{dx}{\sqrt{2}\sigma}$ and we have:
+		$$\mathbb{E}[e^{sX}] = \dfrac{e^{\frac{\sigma^2 s^2}{2}}}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{\infty} e^{-u^2} \sqrt{2}\sigma du = e^{\frac{\sigma^2 s^2}{2}}$$
+		this way we can proof that $\mathbb{E}[e^{sX}] \leq e^{\frac{s^2\sigma^2}{2}}$
+	\end{qsolve}
+\end{qsolve}
+\subsection{Under the Gaussian!}
+Show that, if $X$ is a random variable which has the property of last part with parameter $\sigma ^2$ (note that X is not necessarily Gaussian), then for each $t > 0$ we have:
+$$\mathbb{P}[|X| \geq t] \leq 2e^{-\frac{t^2}{2\sigma^2}}$$
+\begin{qsolve}
+		we can state that $\mathbb{P}[|X| \geq t] = \mathbb{P}[X \geq t] + \mathbb{P}[X \leq -t] $. now we can use chernoff's inequality to solve this question. 
+		\begin{qsolve}[]
+			\begin{center}
+				chernoff's inequality:
+			\end{center}
+			$$\mathbb{P}[X\geq a] \leq  e^{-as}\mathbb{E}[e^{sX}],\ \  s>0 $$
+			$$\mathbb{P}[X\leq a] \leq  e^{-as}\mathbb{E}[e^{sX}],\ \  s<0 $$
+		\end{qsolve}
+		now we can say that:
+		\begin{qsolve}[]
+			$$\mathbb{P}[X \geq t] \leq e^{-st}\mathbb{E}[e^{sX}]$$
+			as we proved in the last part, we have:
+			$$\mathbb{E}[e^{sX}] \leq e^{\frac{s^2\sigma^2}{2}}$$
+			so we have:
+			$$\mathbb{P}[X \geq t] \leq e^{-st}e^{\frac{s^2\sigma^2}{2}} = e^{\frac{s^2\sigma^2}{2} - st}$$
+			\splitqsolve[\splitqsolve]
+			now we can solve this equation:
+			$$\frac{s^2\sigma^2}{2} - st = -\frac{t^2}{2\sigma^2}$$
+			if we solve this equation for $s$ then $s = \frac{t}{\sigma ^2}$. obviously $t > 0$ and $s > 0$ so we proved that:
+			$$\mathbb{P}[X \geq t] \leq e^{-\frac{t}{2\sigma ^2}}$$
+			with a similar solution we can prove that:
+			$$\mathbb{P}[X \leq -t] \leq e^{-\frac{t}{2\sigma ^2}}$$
+			so :
+			$$\mathbb{P}[|X| \geq t] \leq 2e^{-\frac{t^2}{2\sigma^2}}$$
+		\end{qsolve}
+\end{qsolve}
+\subsection{Expectable}
+Show that for any random variable $X$, we have:
+$$\mathbb{E}[max(X,0)] = \int_{0}^{\infty} \mathbb{P}(X\geq x) dx$$
+\begin{qsolve}
+	\begin{qsolve}[]
+		we can use the definition of the expectation to solve this question. the definition of the expectation is:
+		$$\mathbb{E}[g(X)] = \int_{-\infty}^{\infty} g(x) f_x(x) dx$$
+		so we have:
+		$$\mathbb{E}[max(X,0)] = \int_{-\infty}^{\infty} max(x,0) f_x(x) dx = \int_{-\infty}^{0} 0 f_x(x) dx + \int_{0}^{\infty} x f_x(x) dx$$
+		$$= \int_{0}^{\infty} x f_x(x) dx = \int_{0}^{\infty} \mathbb{P}(X\geq x) dx$$
+		we can prove the last equation as below:
+		$$\int_{0}^{\infty} \mathbb{P}(X\geq x) dx = \int_{0}^{\infty} \int_{x}^{\infty} f_x(t) dt dx = \int_{0}^{\infty} \int_{0}^{t} f_x(t) dx dt = \int_{0}^{\infty} t f_x(t) dt$$
+		substituting $t = x$ we have:
+		$$\int_{0}^{\infty} t f_x(t) dt = \int_{0}^{\infty} x f_x(x) dx$$
+		\splitqsolve[\splitqsolve]
+		so:
+		$$\int_{0}^{\infty} \mathbb{P}(X\geq x) dx = \int_{0}^{\infty} x f_x(x) dx = \mathbb{E}[max(X,0)]$$
+	\end{qsolve}
+\end{qsolve}
+\subsection{multivariate Gaussian} 
+suppose that $y$ is a \textit{Gaussian vector} , in other words we have:
+$$y \sim \mathcal{N}(\mu, \Sigma)$$
+$$y = \begin{pmatrix} y_1 \\ y_2 \end{pmatrix} , \mu = \begin{pmatrix} \mu_1 \\ \mu_2 \end{pmatrix} , \Sigma = \begin{pmatrix} \Sigma_{11} & \Sigma_{12} \\ \Sigma_{21} & \Sigma_{22} \end{pmatrix}$$
+show the following statement:
+$$p(y_2) = \mathcal{N} (\mu_2 , \Sigma_{22})$$
+$$p(y_1|y_2) = \mathcal{N} (\mu_1 + \Sigma_{12}\Sigma_{22}^{-1}(y_2 - \mu_2), \Sigma_{11} - \Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21})$$
+\begin{qsolve}
+	\begin{qsolve}[]
+		from defenition of the multivariate Gaussian distribution we know that if we have two jointly Gaussian random variables $y_1$ and $y_2$ each with mean $\mu_1$ and $\mu_2$ and covariance $\Sigma_{11}$ and $\Sigma_{22}$, then the joint distribution of $y_1$ and $y_2$ is:
+		$$p(y_1,y_2) = \dfrac{1}{2\pi\sqrt{|\Sigma|}} e^{-\frac{1}{2}(y-\mu)^T\Sigma^{-1}(y-\mu)}$$
+		wich the mean vector $\mu$ and the covariance matrix $\Sigma$ are:
+		$$\mu = \begin{pmatrix} \mu_1 \\ \mu_2 \end{pmatrix} , \Sigma = \begin{pmatrix} \Sigma_{11} & \Sigma_{12} \\ \Sigma_{21} & \Sigma_{22} \end{pmatrix}$$
+		$\mu_1$ and $\mu_2$ are the means of $y_1$ and $y_2$ and $\Sigma_{11}$ and $\Sigma_{22}$ are the variances of $y_1$ and $y_2$ and $\Sigma_{12}$ and $\Sigma_{21}$ are the covariances of $y_1$ and $y_2$. so we can write $y_1$ and $y_2$ as:
+		$$y_1 \sim \mathcal{N}(\mu_1, \Sigma_{11}) , y_2 \sim \mathcal{N}(\mu_2, \Sigma_{22})$$
+		so the first statement is proved. now we can prove the second statement. we know that the conditional distribution of $y_1$ given $y_2$ is:
+		$$p(y_1|y_2) = \dfrac{p(y_1,y_2)}{p(y_2)}$$
+		we can write $p(y_1,y_2)$ as:
+		$$p(y_1,y_2) \propto exp\left\{-\dfrac{1}{2} (y-\mu)^T \Sigma^{-1} (y-\mu)\right\}$$
+		$$\Rightarrow p(y_1,y_2) \propto exp\left\{-\dfrac{1}{2} \begin{pmatrix} y_1-\mu_1 \\ y_2-\mu_2 \end{pmatrix}^T \begin{pmatrix} \Sigma_{11} & \Sigma_{12} \\ \Sigma_{21} & \Sigma_{22} \end{pmatrix}^{-1} \begin{pmatrix} y_1-\mu_1 \\ y_2-\mu_2 \end{pmatrix}\right\}$$
+		\splitqsolve[\splitqsolve]
+		shcurr complement states that if we have a block matrix like $\begin{pmatrix} A & B \\ C & D \end{pmatrix}$ and $A$ is invertible, then the inverse of the matrix is:
+		$$\begin{pmatrix} A & B \\ C & D \end{pmatrix}^{-1} = \begin{pmatrix} I & 0 \\ -D^{-1}C & I \end{pmatrix} \begin{pmatrix} (A-BD^{-1}C)^{-1} & 0 \\ 0 & D^{-1} \end{pmatrix}  \begin{pmatrix} I & -BD^{-1} \\ 0 & I \end{pmatrix}$$
+		using schurr's complement we can write $\Sigma^{-1}$ as:
+		$$\Sigma^{-1} = \begin{pmatrix} I & 0 \\ -\Sigma_{22}^{-1}\Sigma_{21} & I \end{pmatrix} \begin{pmatrix} (\Sigma_{11}-\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21})^{-1} & 0 \\ 0 & \Sigma_{22}^{-1} \end{pmatrix}  \begin{pmatrix} I & -\Sigma_{12}\Sigma_{22}^{-1} \\ 0 & I \end{pmatrix}$$
+		now we calculate the exponent of the Gaussian distribution:
+		$$-\dfrac{1}{2} \begin{pmatrix} y_1-\mu_1 \\ y_2-\mu_2 \end{pmatrix}^T \Sigma^{-1} \begin{pmatrix} y_1-\mu_1 \\ y_2-\mu_2 \end{pmatrix}$$
+		we define $A$ , $B$ and $C$ as:
+		$$A = \begin{pmatrix} y_1-\mu_1 \\ y_2-\mu_2 \end{pmatrix}^T \begin{pmatrix} I & 0 \\ -\Sigma_{22}^{-1}\Sigma_{21} & I \end{pmatrix}$$
+		$$B = \begin{pmatrix} (\Sigma_{11}-\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21})^{-1} & 0 \\ 0 & \Sigma_{22}^{-1} \end{pmatrix}$$
+		$$C = \begin{pmatrix} I & -\Sigma_{12}\Sigma_{22}^{-1} \\ 0 & I \end{pmatrix} \begin{pmatrix} y_1-\mu_1 \\ y_2-\mu_2 \end{pmatrix}$$
+		now we calculate $A$ and $C$:
+		$$A = \begin{pmatrix} y_1-\mu_1 \\ y_2-\mu_2 \end{pmatrix}^T \begin{pmatrix} I & 0 \\ -\Sigma_{22}^{-1}\Sigma_{21} & I \end{pmatrix} = \begin{pmatrix} y_1-\mu_1 - \Sigma_{22}^{-1}\Sigma_{21}(y_2-\mu_2) \\ y_2-\mu_2 \end{pmatrix}^T$$
+		$$C = \begin{pmatrix} I & -\Sigma_{12}\Sigma_{22}^{-1} \\ 0 & I \end{pmatrix} \begin{pmatrix} y_1-\mu_1 \\ y_2-\mu_2 \end{pmatrix} = \begin{pmatrix} y_1-\mu_1 - \Sigma_{12}\Sigma_{22}^{-1}(y_2-\mu_2) \\ y_2-\mu_2 \end{pmatrix}$$
+		so we have:
+		$$-\dfrac{1}{2}ABC =$$
+		$$ = -\dfrac{1}{2} (y_1-\mu_1 - \Sigma_{22}^{-1}\Sigma_{21}(y_2-\mu_2))(\Sigma_{11}-\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21})^{-1}(y_1-\mu_1 - \Sigma_{12}\Sigma_{22}^{-1}(y_2-\mu_2))\ \  (\ast )$$
+		$$- \dfrac{1}{2} (y_2-\mu_2)^T\Sigma_{22}^{-1}(y_2-\mu_2)\ \ (\ast \ast )$$
+		as we proved in previous part $(\ast \ast)$ is aqtually $p(y_2) = \dfrac{1}{\sqrt{\Sigma_{22}}}e^{\left((y_2-\mu_2)^T \Sigma_{22}^{-1}(y_2-\mu_2)\right)}$ so as we mentioned before($p(y_1,y_2) = p(y_2)p(y_1|y_2)$) we can prove that the ($\ast $) is the exponent of the conditional distribution of $y_1$ given $y_2$ so we have:
+		\splitqsolve[\splitqsolve]
+		$$p(y_1|y_2) \propto exp\left\{\ast \right\}$$
+		so by defenition we can say that the conditional distribution of $y_1$ given $y_2$ is:
+		$$p(y_1|y_2) = \mathcal{N} (\mu_1 + \Sigma_{12}\Sigma_{22}^{-1}(y_2 - \mu_2), \Sigma_{11} - \Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21})$$
+		and this way the second statement is proved.
+	\end{qsolve}
+\end{qsolve}
+\subsection{Conditional multivariate Gaussian}
+Take:
+$$z\in \mathcal{R}^D , y \in \mathcal{R}^K , W \in \mathcal{R}^{K \times D} , b \in \mathcal{R}^K$$
+if we have:
+$$p(z) = \mathcal{N}(\mu_z , \Sigma_z)$$
+$$p(y|z) = \mathcal{N}(Wz + b , \Sigma_{y|z})$$
+show the following statement:
+$$p(z,y) = \mathcal{N}(\mu , \Sigma)$$
+$$\mu = \begin{pmatrix}\mu_z \\ W\mu_z+b\end{pmatrix}$$
+$$\Sigma = \begin{pmatrix}\Sigma_z & \Sigma_zW^T \\ W\Sigma_z & W\Sigma_zW^T + \Sigma_{y|z}\end{pmatrix}$$
+$$p(z|y) = \mathcal{N}(\mu_{z|y} , \Sigma_{z|y})$$
+$$\mu_{z|y} = \Sigma_{z|y}(W^T\Sigma_{y|z}^{-1}(y-b) + \Sigma_{z}^{-1} \mu_z)$$
+$$\Sigma_{z|y}^{-1} = \Sigma_z^{-1} + W^T\Sigma_{y|z}^{-1}W$$ 
+\begin{qsolve}
+	\begin{qsolve}[]
+		to prove the first statement we use the previous question result. we calculate $p(y,z)$ first.as we proved in the previous question:
+		$$p(y_1 , y_2) = p(y_2)p(y_1|y_2) \propto exp\left\{-\dfrac{1}{2} \begin{pmatrix} y_1 - \mu_1 \\ y_2 - \mu_2 \end{pmatrix}^T \begin{pmatrix} \Sigma_{11} & \Sigma_{12} \\ \Sigma_{21} & \Sigma_{22} \end{pmatrix}^{-1} \begin{pmatrix} y_1 - \mu_1 \\ y_2 - \mu_2 \end{pmatrix}\right\}$$
+		$$ = e^{\left\{-\frac{1}{2} (y_2 - \mu_2)^T \Sigma_{22}^{-1} (y_2 - \mu_2) \right\}}\times$$
+		$$ e^{\left\{-\frac{1}{2} (y_1 - \mu_1 - \Sigma_{12}\Sigma_{22}^{-1}(y_2 - \mu_2))^T (\Sigma_{11} - \Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21})^{-1} (y_1 - \mu_1 - \Sigma_{12}\Sigma_{22}^{-1}(y_2 - \mu_2)) \right\}}$$
+		so we have:
+		$$y_1 = y\quad, y_2 = z\quad, \mu_1 = W\mu_z + b\quad, \mu_2 = \mu_z$$
+		$$ \Sigma_{11} = \Sigma_{y|z} + W\Sigma_zW^T\quad, \Sigma_{22} = \Sigma_z\quad, \Sigma_{12} = W \Sigma_z \quad, \Sigma_{21} = \Sigma_z W^T$$
+		\splitqsolve[\splitqsolve]
+		$$exp\left\{-\dfrac{1}{2} \begin{pmatrix} y - W\mu_z - b \\ z - \mu_z \end{pmatrix}^T \begin{pmatrix} \Sigma_{y|z} + W\Sigma_zW^T & W\Sigma_z \\ \Sigma_zW^T & \Sigma_z \end{pmatrix}^{-1} \begin{pmatrix} y - W\mu_z - b \\ z - \mu_z \end{pmatrix}\right\}$$
+		$$= e^{\left\{-\frac{1}{2} (z - \mu_z)^T \Sigma_z^{-1} (z - \mu_z) \right\}}\times$$
+		$$ e^{\left\{-\frac{1}{2} (y - W\mu_z - b - W\Sigma_z\Sigma_z^{-1}(z - \mu_z))^T (\Sigma_{y|z} + W\Sigma_zW^T - W\Sigma_z\Sigma_z^{-1}\Sigma_zW^T)^{-1} (y - W\mu_z - b - W\Sigma_z\Sigma_z^{-1}(z - \mu_z)) \right\}}$$
+		$$\Rightarrow p(y,z) =\propto exp\left\{-\dfrac{1}{2} (z-\mu_z)^T \Sigma_z^{-1} (z-\mu_z)\right\}\times$$
+		$$ exp\left\{-\dfrac{1}{2} (y - Wz - b)^T (\Sigma_{y|z})^{-1} (y - Wz - b)\right\} = p(z)p(y|z)$$
+		$$\Rightarrow p(y,z) = \mathcal{N}(\mu , \Sigma) , \mu = \begin{pmatrix}W \mu_z + b \\ \mu_z\end{pmatrix} , \Sigma = \begin{pmatrix}W\Sigma_zW^T + \Sigma_{y|z} & \Sigma_zW^T \\ W\Sigma_z & \Sigma_z\end{pmatrix}$$
+		$$\Rightarrow p(z,y) = \mathcal{N}(\mu , \Sigma) , \mu = \begin{pmatrix}\mu_z \\ W\mu_z+b\end{pmatrix} , \Sigma = \begin{pmatrix}\Sigma_z & \Sigma_zW^T \\ W\Sigma_z & W\Sigma_zW^T + \Sigma_{y|z}\end{pmatrix}$$
+		for the next part we know that $p(z,y) = p(z|y)p(y)$ so we can write:
+		$$p(z,y) \propto e^{\left\{-\frac{1}{2} \begin{pmatrix}
+			z - \mu_z \\ y - Wz - b
+		\end{pmatrix} ^T \begin{pmatrix}
+			\Sigma_z & \Sigma_zW^T \\ W\Sigma_z & W\Sigma_zW^T + \Sigma_{y|z}
+		\end{pmatrix}^{-1} \begin{pmatrix}
+			z - \mu_z \\ y - Wz - b
+		\end{pmatrix}\right\}}$$
+		as we proved in the previous question if we have a block matrix like $\begin{pmatrix} A & B \\ C & D \end{pmatrix}$ and $A$ is invertible, then the inverse of the matrix is:
+		$$\begin{pmatrix} A & B \\ C & D \end{pmatrix}^{-1} = \begin{pmatrix} I & 0 \\ -D^{-1}C & I \end{pmatrix} \begin{pmatrix} (A-BD^{-1}C)^{-1} & 0 \\ 0 & D^{-1} \end{pmatrix}  \begin{pmatrix} I & -BD^{-1} \\ 0 & I \end{pmatrix}$$
+		so we have:
+		$$\Sigma^{-1} =ABC$$
+		where
+		$$ A = \begin{pmatrix} I & 0 \\ -W\Sigma_zW^T - \Sigma_{y|z} & I \end{pmatrix}$$
+		$$ B = \begin{pmatrix} (\Sigma_z - \Sigma_zW^T(W\Sigma_zW^T + \Sigma_{y|z})^{-1}W\Sigma_z)^{-1} & 0 \\ 0 & (W\Sigma_zW^T + \Sigma_{y|z})^{-1} \end{pmatrix}$$
+		$$ C = \begin{pmatrix} I & -\Sigma_zW^T(W\Sigma_zW^T + \Sigma_{y|z})^{-1} \\ 0 & I \end{pmatrix}$$
+		by matrix mulipication we can say that:
+		$$\Sigma^{-1} = \begin{pmatrix}
+			\Sigma_z^{-1} + W^T\Sigma_{y|z}^{-1}W & -W^T \Sigma_{y|z}^{-1} \\
+			-\Sigma_{y|z}^{-1}W & \Sigma_{y|z}^{-1}
+		\end{pmatrix}
+		$$
+		\splitqsolve[\splitqsolve]
+		and its diagonalization is:
+		$$\Sigma^{-1} = \begin{pmatrix}
+			I & 0 \\
+			-\Sigma_{y|z}^{-1}W\Lambda_{11}^{-1} & I
+		\end{pmatrix} \begin{pmatrix}
+			\Lambda_{11} & 0 \\
+			0 & \Lambda_{22}
+		\end{pmatrix} \begin{pmatrix}
+			I & -\Lambda_{11}^{-1} W^T \Sigma_{y|z}^{-1} \\
+			0 & I
+		\end{pmatrix}$$
+		where \hl{$\Lambda_{11} = \Sigma_z^{-1} + W^T\Sigma_{y|z}^{-1}W$} and \hl{$\Lambda_{22} = \Sigma_{y|z}^{-1}- \Sigma_{y|z}^{-1}W\Lambda_{11}^{-1}W^T\Sigma_{y|z}^{-1}$}.
+		now we have:
+		$$p(z,y)\propto$$
+		$$  e^{\left\{-\frac{1}{2} \begin{pmatrix}
+			z - \mu_z \\ y - Wz - b
+		\end{pmatrix} ^T \begin{pmatrix}
+			I & 0 \\ -\Sigma_{y|z}^{-1}W\Lambda_{11}^{-1} & I
+		\end{pmatrix} \begin{pmatrix}
+			\Lambda_{11} & 0 \\ 0 & \Lambda_{22}
+		\end{pmatrix} \begin{pmatrix}
+			I & -\Lambda_{11}^{-1} W^T \Sigma_{y|z}^{-1} \\
+			0 & I
+		\end{pmatrix} \begin{pmatrix}
+			z - \mu_z \\ y - Wz - b
+		\end{pmatrix}\right\}}$$
+		so by matrix multipixation we have:
+		$$p(z,y) \propto e^{\left\{-\frac{1}{2} (y-W\mu_z - b)^T \Lambda_{22} (y-W\mu_z - b)\right\}}\times$$
+		$$e^{\left\{-\frac{1}{2} (z-\mu_z - \Lambda_{11}^{-1}W^T\Sigma_{y|z}^{-1}(y-W\mu_z - b))^T \Lambda_{11} (z-\mu_z - \Lambda_{11}^{-1}W^T\Sigma_{y|z}^{-1}(y-W\mu_z - b))\right\}}$$	
+		as we can see the first part of the exponent is the exponent of the Gaussian distribution of $y$ so as we know $p(z,y) = p(z|y)p(y)$ the second exponent is $p(z|y)$ so we have:
+		$$\mu_{z|y} = \Lambda_{11}^{-1}W^T\Sigma_{y|z}^{-1}(y-W\mu_z - b) + \mu_z$$
+		and
+		\begin{center}
+			\hl{$\Sigma_{z|y}^{-1} = \Lambda_{11} = \Sigma_z^{-1} + W^T\Sigma_{y|z}^{-1}W$}
+		\end{center}
+		so if we rewrite the $\mu_{z|y}$ we have:
+		$$\mu_{z|y} = \Sigma_{z|y}(W^T\Sigma_{y|z}^{-1}(y-b) + (\Sigma_{z|y})^{-1} - W^T\Sigma_{y|z}^{-1}W) \mu_z$$ 
+		\begin{center}
+			\hl{$ \Rightarrow \mu_{z|y} = \Sigma_{z|y}(W^T\Sigma_{y|z}^{-1}(y-b) + \Sigma_{z}^{-1} \mu_z)$}
+		\end{center}
+	\end{qsolve}
+\end{qsolve}
+\subsection{Gaussian Mixture models}
+Now assume that in the previous part, the prior distribution is a mixture of K gaussian distributions (GMM), that is , $p(z) = \sum_{k=1}^{K} \pi_k \mathcal{N}(\mu_k , \Sigma_k)$, for which we clearly have $\sum_{k=1}^{K} \pi_k = 1$.Prove the posterior distribution is another GMM, and calculate its parameters.\\
+Hint to avoid a common mistake: The posterior coefficients $\pi_k'$ are not equal to $\pi_k$.
+\begin{qsolve}
+	\begin{qsolve}[]
+		we use a same approach as two previous questions:
+		$$p(z) = \sum_{k=1}^{K} \pi_k \mathcal{N}(\mu_k , \Sigma_k)$$
+		\splitqsolve[\splitqsolve]
+		$$p(y|z) = \mathcal{N}(Wz + b , \Sigma_{y|z})$$
+		$$p(y,z) = p(y|z)p(y)$$
+		$$p(y,z) = \sum_{k=1}^{K} \pi_k \mathcal{N}(\mu_k , \Sigma_k) \mathcal{N}(Wz + b , \Sigma_{y|z})$$
+		$$ = \sum_{k=1}^{K} \pi_k e^{\left\{-\frac{1}{2} (z-\mu_k)^T \Sigma_k^{-1} (z-\mu_k) \right\}} e^{\left\{-\frac{1}{2} (y-Wz-b)^T \Sigma_{y|z}^{-1} (y-Wz-b) \right\}}$$
+		so we can write $p(z,y)$ as below:
+		$$p(z,y) = \sum_{k=1}^{K} \pi_k \mathcal{N}(\mu_k' , \Sigma_k') $$
+		which from the previous part we know:
+		$$\mu_k' = \begin{pmatrix}\mu_k \\ W\mu_k+b\end{pmatrix}$$
+		$$\Sigma_k' = \begin{pmatrix}\Sigma_k & \Sigma_kW^T \\ W\Sigma_k & W\Sigma_kW^T + \Sigma_{y|z}\end{pmatrix}$$
+		as we know we can write $p(y) = \int_{-\infty}^{\infty} p(z,y) dz$ so we have:
+		$$p(y) = \sum_{k=1}^{K} \pi_k \int_{-\infty}^{\infty} \mathcal{N}(\mu_k' , \Sigma_k') dz$$
+		$$ = \sum_{k=1}^{K} \pi_k \mathcal{N}(W \mu_k + b , W\Sigma_kW^T + \Sigma_{y|z})$$
+		so we can write the posterior distribution as:
+		$$p(z|y) = \dfrac{p(z,y)}{p(y)} = \dfrac{\sum_{k=1}^{K} \pi_k \mathcal{N}(\mu_k' , \Sigma_k')}{\sum_{k=1}^{K} \pi_k \mathcal{N}(W \mu_k + b , W\Sigma_kW^T + \Sigma_{y|z})}$$
+		$$\Rightarrow p(z|y) = \sum_{k=1}^{K} \pi_k' \mathcal{N} (W\mu_k' + b , W\Sigma_k'W^T + \Sigma_{y|z})$$
+		and we can calculate the $\pi_k'$ as:
+		$$\pi_k' = \dfrac{\pi_k  \mathcal{N}(W \mu_k + b , \Sigma_{y|z}^{-1} (I - W(\Sigma_k + W^T \Sigma_{y|z}^{-1} W)^{-1}W^T)\Sigma_{y|z}^{-1})}{\sum_{k=1}^{K} \pi_k \mathcal{N}(W \mu_k + b , \Sigma_{y|z}^{-1} (I - W(\Sigma_k + W^T \Sigma_{y|z}^{-1} W)^{-1}W^T)\Sigma_{y|z}^{-1})}$$
+	\end{qsolve}
+\end{qsolve}

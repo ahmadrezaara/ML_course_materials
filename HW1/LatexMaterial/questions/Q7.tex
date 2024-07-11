@@ -1,0 +1,93 @@
+\section{Vector differentiation}
+Prove the following vector differentiation formulas.
+\subsection{statement 1}
+$$\nabla_x (a^T x) = \nabla_x (x^T a) = a$$
+\begin{qsolve}
+	\begin{qsolve}[]
+		we can write $a^T x$ as:
+		$$a^T x = \begin{bmatrix} a_1 & a_2 & \cdots & a_n \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix} = a_1 x_1 + a_2 x_2 + \cdots + a_n x_n$$
+		Then we have:
+		$$\nabla_x (a^T x) = \begin{bmatrix} \dfrac{\partial (a^T x)}{\partial x_1} \\ \dfrac{\partial (a^T x)}{\partial x_2} \\ \vdots \\ \dfrac{\partial (a^T x)}{\partial x_n} \end{bmatrix} = \begin{bmatrix} a_1 \\ a_2 \\ \vdots \\ a_n \end{bmatrix} = a$$
+		we can also write $x^T a$ as:
+		$$x^T a = \begin{bmatrix} x_1 & x_2 & \cdots & x_n \end{bmatrix} \begin{bmatrix} a_1 \\ a_2 \\ \vdots \\ a_n \end{bmatrix} = a_1 x_1 + a_2 x_2 + \cdots + a_n x_n$$
+		Then we have:
+		$$\nabla_x (x^T a) = \begin{bmatrix} \dfrac{\partial (x^T a)}{\partial x_1} \\ \dfrac{\partial (x^T a)}{\partial x_2} \\ \vdots \\ \dfrac{\partial (x^T a)}{\partial x_n} \end{bmatrix} = \begin{bmatrix} a_1 \\ a_2 \\ \vdots \\ a_n \end{bmatrix} = a$$
+		this concludes the proof.
+	\end{qsolve}
+\end{qsolve}
+\subsection{statement 2}
+$$\nabla_x (Tr\{xx^T A\}) = \nabla_x (x^TAx) = (A+A^T)x$$
+first we denote $B = x^T A x$ so:
+\begin{qsolve}
+	\begin{qsolve}[]
+		$$B = \begin{bmatrix} x_1 & x_2 & \cdots & x_n \end{bmatrix} \begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{n1} & a_{n2} & \cdots & a_{nn} \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix} $$
+		$$ = \begin{bmatrix} x_1 & x_2 & \cdots & x_n \end{bmatrix} \begin{bmatrix} a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n \\ a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n \\ \vdots \\ a_{n1}x_1 + a_{n2}x_2 + \cdots + a_{nn}x_n \end{bmatrix} $$
+		$$ = x_1(a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n) + x_2(a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n) +$$
+		$$ + \cdots + x_n(a_{n1}x_1 + a_{n2}x_2 + \cdots + a_{nn}x_n)$$
+		Then we have:
+		$$\nabla_x (x^TAx) = \begin{bmatrix} \dfrac{\partial (x^TAx)}{\partial x_1} \\ \dfrac{\partial (x^TAx)}{\partial x_2} \\ \vdots \\ \dfrac{\partial (x^TAx)}{\partial x_n} \end{bmatrix} = \begin{bmatrix} 2a_{11}x_1 + (a_{12}+a_{21})x_2 + \cdots + (a_{1n}+a_{n1})x_n \\ a_{21}x_1 + 2a_{22}x_2 + \cdots + (a_{2n}+a_{n2})x_n \\ \vdots \\ a_{n1}x_1 + a_{n2}x_2 + \cdots + 2a_{nn}x_n \end{bmatrix}$$
+		so:
+		$$\nabla_x (x^TAx) = (A+A^T)x$$
+		we also can say that $Tr\{ xx^T A \} = Tr\{x^T A x\}$ so:
+		$$\nabla_x (Tr\{xx^T A\}) = \nabla_x(Tr\{ x^T A x\})$$
+		as we proved that:
+		$$ B = x_1(a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n) + x_2(a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n) +$$
+		$$ + \cdots + x_n(a_{n1}x_1 + a_{n2}x_2 + \cdots + a_{nn}x_n)$$		so $Tr\{x^T A x\} = B$ so:
+		$$\nabla_x (Tr\{xx^T A\}) = \nabla_x(Tr\{ x^T A x\}) = \nabla_x (x^TAx) = (A+A^T)x$$
+	\end{qsolve}
+\end{qsolve}
+\subsection{Gradient without explicit differentiation!}
+Another method to calculate gradients without explicit differentiation is using an equivalent
+definition of gradients:
+For small $\Delta X $, we have:
+$$f(x + \Delta x) - f(x) \approx \langle \nabla_x f(x) , \Delta x\rangle $$
+Using this equation and the fact that in the matrix space, the Frobenius inner product is defined
+as $\langle A, B \rangle = Tr\{A^T B\}$, prove the following for a symmetric matrix $X$:
+$$\nabla_X(-\log \det \{X\}) = -X^{-1}$$
+Hint: You may need an eigenvalue decomposition somewhere in your solution.
+\begin{qsolve}
+	\begin{qsolve}[]
+		$f(X) = \log \det \{X\}$ so:
+		$$f(X + \Delta X) = \log \det \{X + \Delta X\}$$
+		$$ = \log \det \{X^{\frac{1}{2}}(I + X^{-\frac{1}{2}}\Delta X X^{-\frac{1}{2}})X^{\frac{1}{2}}\}$$
+		$$ = \log \det \{X\} - \log \det \{I + X^{-\frac{1}{2}}\Delta X X^{-\frac{1}{2}}\}$$
+		$$ = \log \det \{X\} - \sum_{i=1}^{n} \log(1 + \lambda_i)$$
+		fo small $\lambda_i$ we have:
+		$$\log(1 + \lambda_i) \approx \lambda_i$$
+		so we can rewrite the equation as:
+		$$f(X + \Delta X) = \log \det \{X\} + \sum_{i=1}^{n} \lambda_i$$
+		$$ = \log \det \{X\} + Tr\{X^{-1}\Delta X\}$$
+		we know that $f(X) = \log \det \{X\}$ so based on the given equation we have:
+		$$f(X + \Delta X) - f(X) \approx \langle \nabla_X f(X) , \Delta X\rangle $$
+		$$ \Rightarrow \log \det \{X + \Delta X\} - \log \det \{X\} \approx \langle \nabla_X \log \det \{X\} , \Delta X\rangle $$
+		$$ = Tr{\{\nabla_X \log \det \{X\}^T \Delta X\}} = Tr{X^{-1}\Delta X}$$
+		based on the last equation we can say that:
+		$$\nabla_X \log \det \{X\} = X^{-1}$$
+		so:
+		$$\nabla_X(-\log \det \{X\}) = -X^{-1}$$
+	\end{qsolve}
+\end{qsolve}
+\subsection{ Gradient without explicit differentiation! Part 2}
+Using the method of the previous part, prove the following:
+$$\nabla_X Tr\{X^{-1}A\} = -X^{-T}A^TX^{-T}$$
+Hint: An asymmetric matrix is not always diagonalizable! Use another method for the difference
+of matrices in your solution.
+\begin{qsolve}
+	\begin{qsolve}[]
+		like the previous part in this part we define $f(x) = Tr(X^{-1}A)$ so:
+		$$f(X+\Delta X) = Tr((X+\Delta X)^{-1}A)$$
+		using taylor expansion for $(X+\Delta X) ^{-1}$ for small $\Delta X$ we have:
+		$$(X+\Delta X) ^{-1} \approx X^{-1} - X^{-1}\Delta X X^{-1}$$
+		so we have:
+		$$f(X+\Delta X) = Tr(X^{-1}A) - Tr(X^{-1}\Delta X X^{-1}A)$$
+		$$\Rightarrow f(X+\Delta X) - f(X) = -Tr(X^{-1}\Delta X X^{-1}A)$$
+		using the fact that $f(X+\Delta X) - f(X) \approx \langle \nabla_X f(X) , \Delta X\rangle $ we have:
+		$$-Tr(X^{-1}\Delta X X^{-1}A) \approx \langle \nabla_X Tr(X^{-1}A) , \Delta X\rangle $$
+		$$\Rightarrow -Tr(X^{-1}\Delta X X^{-1}A) \approx Tr\{\nabla_X Tr(X^{-1}A)^T \Delta X\}$$
+		$$\Rightarrow \nabla_x f(x)^T = -X^{-1}A X^{-1}$$
+		so:
+		$$\nabla_X Tr\{X^{-1}A\} = -X^{-T}A^TX^{-T}$$
+	\end{qsolve}
+\end{qsolve}
+
+

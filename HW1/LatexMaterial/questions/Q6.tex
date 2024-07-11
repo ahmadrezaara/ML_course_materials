@@ -1,0 +1,60 @@
+\section{SVD Decomposition}
+If the SVD decomposition of matrix A is defined as $A = U\Sigma  V^T$, then the pseudo-inverse
+matrix is defined as $A ^{\dag} = V\Sigma ^{-1} U^T$
+\subsection{pseudo-inverse}
+Show that if $A$ has full row rank, then we have: $A^{\dag} = A^T(A^TA)^{-1}$ and if it has full column rank, then we have: $A^{\dag} = (A^TA)^{-1}A^T$. The invertibility of square matrices does not need to be proven.
+\begin{qsolve}
+	\begin{qsolve}[]
+		if $A$ has full row rank we know that $U^{-1} = U^T$ and $V^{-1} = V^T$. so we have:
+		$$A^T(A^TA)^{-1} = A^T A^{-1} A^{T^{-1}} = V \Sigma U^T V \Sigma^{-1} U^T U \Sigma V^T $$
+		$$= V \Sigma U^T V \Sigma^{-1} \Sigma V^T = V \Sigma U^T V V^T = V \Sigma U^T = A^{\dag}$$
+		similarly if $A$ has full column rank we have:
+		$$(A^TA)^{-1}A^T = A^{-1} A^{T^{-1}} A^T = A^{-1} = V \Sigma^{-1} U^T = A^{\dag}$$
+	\end{qsolve}
+\end{qsolve}
+\subsection{SVD}
+Find the SVD decomposition of the matrix $A = 
+\begin{bmatrix}
+    1 & 3 & 1 \\
+    2 & -1 & 2 \\
+\end{bmatrix}$
+\begin{qsolve}
+	\begin{qsolve}[]
+		$$A^T A =\begin{bmatrix}
+			1 & 2   \\
+			3 & -1  \\
+			1 & 2   \\
+		\end{bmatrix}  \begin{bmatrix}
+			1 & 3 & 1 \\
+			2 & -1 & 2 \\
+				\end{bmatrix} = \begin{bmatrix}
+					5 & 1 & 5\\
+					1 & 10 & 1\\
+					5 & 1 & 5\\
+				\end{bmatrix}$$
+		$$\Rightarrow \det(A^T A - \lambda I) = \det\begin{bmatrix}
+			5-\lambda & 1 & 5\\
+			1 & 10-\lambda & 1\\
+			5 & 1 & 5-\lambda\\
+		\end{bmatrix} = 0$$
+		$$\Rightarrow \lambda_1 = 10+\sqrt{2} , \lambda_2 = 10-\sqrt{2} , \lambda_3 = 0$$
+		$$\Rightarrow \sigma_1 = \sqrt{10+\sqrt{2}} , \sigma_2 = \sqrt{10-\sqrt{2}} , \sigma_3 = 0$$
+		$$\Rightarrow \hat{v}_1 = \frac{1}{2}(1,\sqrt{2},1) , \hat{v}_2 = \frac{1}{2}(1,-\sqrt{2},1) , \hat{v}_3 = \frac{1}{\sqrt{2}}(-1,0,1)$$
+		$$\Rightarrow u_1 = \dfrac{Av_1}{\sigma_1} = (\dfrac{\sqrt{2+\sqrt{2}}}{2} , \dfrac{\sqrt{2-\sqrt{2}}}{2}) , u_2 = \dfrac{Av_2}{\sigma_2} = (-\dfrac{\sqrt{2-\sqrt{2}}}{2} , \dfrac{\sqrt{2+\sqrt{2}}}{2}) $$
+		\splitqsolve[\splitqsolve]
+		$$\Rightarrow U = \begin{bmatrix}
+			\dfrac{\sqrt{2+\sqrt{2}}}{2} & -\dfrac{\sqrt{2-\sqrt{2}}}{2} \\
+			\dfrac{\sqrt{2-\sqrt{2}}}{2} & \dfrac{\sqrt{2+\sqrt{2}}}{2} \\
+		\end{bmatrix} , \Sigma = \begin{bmatrix}
+			\sqrt{10+\sqrt{2}} & 0 & 0 \\
+			0 & \sqrt{10-\sqrt{2}} & 0 \\
+		\end{bmatrix}$$ 
+		$$ , V = \begin{bmatrix}
+			\dfrac{1}{2} & \dfrac{1}{2} & -\dfrac{1}{\sqrt{2}} \\
+			\dfrac{\sqrt{2}}{2} & -\dfrac{\sqrt{2}}{2} & 0 \\
+			\dfrac{1}{2} & \dfrac{1}{2} & \dfrac{1}{\sqrt{2}} \\
+		\end{bmatrix}$$
+		$$\Rightarrow A = U\Sigma V^T$$
+	\end{qsolve}
+\end{qsolve}
+

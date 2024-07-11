@@ -1,0 +1,46 @@
+\section{Matrix Frobenius Norm}
+We define the Frobenius norm of a matrix $A \in \mathbb{R}^{m \times n}$ as:
+$$||A||_F = \sqrt{Tr\{A^T A\}}$$
+prove the following statements:
+\subsection{Statement 1}
+prove $||A||_F = \sqrt{\sum_{i=1}^{m} \sum_{j=1}^{n} |A_{ij}|^2}$
+\begin{qsolve}
+	\begin{qsolve}[]
+		we can write $A$ by its column as $A = [a_1, a_2, \cdots, a_n]$, where $a_i$ is the $i^{th}$ column of $A$. Then we have:
+		$$A^T A = \begin{bmatrix} a_1^T \\ a_2^T \\ \vdots \\ a_n^T \end{bmatrix} [a_1, a_2, \cdots, a_n] = \begin{bmatrix} a_1^T a_1 & a_1^T a_2 & \cdots & a_1^T a_n \\ a_2^T a_1 & a_2^T a_2 & \cdots & a_2^T a_n \\ \vdots & \vdots & \ddots & \vdots \\ a_n^T a_1 & a_n^T a_2 & \cdots & a_n^T a_n \end{bmatrix}$$
+		Then we have:
+		$$Tr\{A^T A\} = \sum_{i=1}^{n} a_i^T a_i = \sum_{i=1}^{n} \sum_{j=1}^{m} |a_{ij}|^2$$
+		so we can rewrite Frobenius norm as:
+		$$||A||_F = \sqrt{Tr\{A^T A\}} = \sqrt{\sum_{i=1}^{m} \sum_{j=1}^{n} |A_{ij}|^2}$$
+	\end{qsolve}
+\end{qsolve}
+\subsection{Statement 2}
+Given singular values of matrix $A : ||A||_F = \sqrt{\sum_{i=1}^{r} \sigma_i(A)^2}$
+\begin{qsolve}
+	\begin{qsolve}[]
+		we know that the singular value decomposition of a matrix $A$ is given by:
+		$$A = U \Sigma V^T$$
+		where $U \in \mathbb{R}^{m \times m}$ and $V \in \mathbb{R}^{n \times n}$ are orthogonal matrices and $\Sigma \in \mathbb{R}^{m \times n}$ is a diagonal matrix with singular values of $A$ on its diagonal. Then we have:
+		$$A^T A = (U \Sigma V^T)^T (U \Sigma V^T) = V \Sigma^T U^T U \Sigma V^T = V \Sigma^T \Sigma V^T$$
+		\splitqsolve[\splitqsolve]
+		Then we have:
+		$$Tr\{A^T A\} = Tr\{V \Sigma^T \Sigma V^T\} = Tr\{\Sigma^T \Sigma V^T V\} = Tr\{\Sigma^T \Sigma\}$$
+		Then we have:
+		$$||A||_F = \sqrt{Tr\{A^T A\}} = \sqrt{Tr\{\Sigma^T \Sigma\}} = \sqrt{\sum_{i=1}^{r} \sigma_i(A)^2}$$
+	\end{qsolve}
+\end{qsolve}
+\subsection{Statement 3}
+conclude $max\{\sigma_i(A)\} \leq ||A||_F \leq \sqrt{r} max\{\sigma_i(A)\}$
+\begin{qsolve}
+	\begin{qsolve}[]
+		in the previous section we proved that:
+		$$||A||_F = \sqrt{\sum_{i=1}^{r} \sigma_i(A)^2}$$
+		Then we have:
+		$$max\{\sigma_i(A)\}^2 \leq \sum_{i=1}^{r} \sigma_i(A)^2 \leq r max\{\sigma_i(A)\}^2$$
+		this comes from the fact that $max\{\sigma_i(A)\} \geq \sigma_i(A)$ for all $i$ .
+		Then we have:
+		$$max\{\sigma_i(A)\} \leq \sqrt{\sum_{i=1}^{r} \sigma_i(A)^2} \leq \sqrt{r} max\{\sigma_i(A)\}$$
+		Then we have:
+		$$max\{\sigma_i(A)\} \leq ||A||_F \leq \sqrt{r} max\{\sigma_i(A)\}$$
+	\end{qsolve}
+\end{qsolve}

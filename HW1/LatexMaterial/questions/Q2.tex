@@ -1,0 +1,55 @@
+\section{ Statistics and other friends}
+\subsection{LLN and CLT}
+Briefly explain \textit{Law of Large Numbers} and \textit{Central Limit Theorem}.
+\begin{qsolve}
+	\begin{qsolve}[]
+		\textbf{Law of Large Numbers (LLN)}: This law states that as the number of trials increases, the experimental probability of an event approaches the theoretical probability of the event. In other words, the average of the results obtained from a large number of trials should be close to the expected value, and will tend to become closer as more trials are performed. \\
+		\textbf{Central Limit Theorem (CLT)}: This theorem states that the distribution of the sum (or average) of a large number of independent, identically distributed (\textit{i.i.d}) random variables approaches a normal distribution, regardless of the shape of the original distribution. This is true even if the original random variables are not normally distributed. 
+	\end{qsolve}
+\end{qsolve}
+\subsection{Assumption}
+Discuss how this two theorems and their implications are related to Statistics. How do you
+think they are going to be used in the course?
+\begin{qsolve}
+	\begin{qsolve}[]
+		These two theorems are fundamental in statistics. The Law of Large Numbers is used to justify the use of sample means as estimates of population means. It states that as the sample size increases, the sample mean will converge to the population mean. The Central Limit Theorem is used to justify the use of the normal distribution as an approximation to the sampling distribution of the sample mean. It states that the sampling distribution of the sample mean will be approximately normally distributed, regardless of the shape of the population distribution, as long as the sample size is sufficiently large. I think These theorems are used in the course to justify the use of statistical methods and to understand the properties of estimators and test statistics. 
+	\end{qsolve}
+\end{qsolve}
+\subsection{Are you sure about that?}
+Briefly explain Hypothesis Test and Confidence Interval.
+\begin{qsolve}
+	\begin{qsolve}[]
+		\textbf{Hypothesis Test}: A hypothesis test is a statistical test that is used to determine whether there is enough evidence in a sample of data to infer that a certain condition is true for the entire population. The test is based on the assumption that the null hypothesis is true, and it provides a way to determine whether the null hypothesis should be rejected in favor of an alternative hypothesis. \\
+		\textbf{Confidence Interval}: A confidence interval is a range of values that is used to estimate the true value of a population parameter. It is based on the assumption that the sample mean is normally distributed, and it provides a way to estimate the population mean with a certain level of confidence. 
+	\end{qsolve}
+\end{qsolve}
+\subsection{Another Assumption}
+Discuss how this two concepts and their implications are related to Statistics. How do you
+think they are going to be used in the course?
+\begin{qsolve}
+	\begin{qsolve}[]
+		Hypothesis tests and confidence intervals are used to make inferences about population parameters based on sample data. Hypothesis tests are used to determine whether there is enough evidence to reject the null hypothesis in favor of an alternative hypothesis, while confidence intervals are used to estimate the population parameter with a certain level of confidence. I think these concepts are going to be used in the course to understand the properties of estimators and test statistics, and to make inferences about population parameters based on sample data. 
+	\end{qsolve}
+\end{qsolve}
+\subsection{Time to take out your pen!}
+Consider $X_1, X_2, . . . , X_n$ as n independent random variables, having the same distribution as
+random variable $X$ from [0, 1] interval. Also consider $Y_1, Y_2, . . . , Y_n$ as Bernouli random variables
+independent from each other and also independent from $X_1, X_2, . . . , X_n$, each with parameter
+$X_1, X_2, . . . , X_n$ respectively. You are given the values of $Y_1, Y_2, . . . , Y_n$, also we don’t know the
+values of $X_1, X_2, . . . , X_n$. Based on this, create a 95\% confidence interval for $\mu = E[X]$.
+\begin{qsolve}
+	\begin{qsolve}[]
+		we know that for a Bernouli random variable with parameter $X$ , $E[Y] = X$ and $Var[Y] = (1-X)X$. we define a random variable called $Z = \dfrac{\sum_{i = 1}^{n} Y_i}{n}$ for this random variable we can state that $E[Z] = \dfrac{\sum_{i = 1}^{n} E[Y_i]}{n} = \dfrac{\sum_{i = 1}^{n} X_i}{n} = \bar{X}$. also we can state that $Var[Z] = \dfrac{\sum_{i = 1}^{n} Var[Y_i]}{n} = \dfrac{\sum_{i = 1}^{n} (1-X_i)X_i}{n}$.
+		\splitqsolve[\splitqsolve]
+		as we dont know the values of $X_i$ we cant have a specific value for $Var[Z]$. but we want to specify an interval for $\mu = E[X]$ we can use this approach:
+		$$(1-X_i)X_i = X_i - X_i^2 \Rightarrow \frac{d}{dX_i} (X_i - X_i^2) = 1 - 2X_i = 0 \Rightarrow X_{i_{max}} = \frac{1}{2}$$
+		$$\Rightarrow (1-X_i)X_i \leq \frac{1}{4} \Rightarrow Var[Z] \leq \frac{1}{4n}$$
+		we can state that if we find an interval with an assumption that each $Y_i$ has the maximum variance this interval is true for all variances. now using CLT we have:
+		$$P(-z_{\frac{\alpha}{2}}\leq \dfrac{\mu - \bar{X}}{\sqrt{\frac{1}{4n}}} \leq z_{\frac{\alpha}{2}}) = 1-\alpha$$
+		if we solve this inequality for $\mu$ and set $\alpha = 5$ we have:
+		$$P(\bar{X} - z_{\frac{5}{2}}\sqrt{\frac{1}{4n}} \leq \mu \leq \bar{X} + z_{\frac{5}{2}}\sqrt{\frac{1}{4n}}) = 0.95$$
+		so the interval for the maximum variance is:
+		$$[\bar{X} - z_{\frac{5}{2}}\sqrt{\frac{1}{4n}}, \bar{X} + z_{\frac{5}{2}}\sqrt{\frac{1}{4n}}]$$
+		this is an interval with a confidence level of a more than $95\%$ for $X$.
+	\end{qsolve}
+\end{qsolve}

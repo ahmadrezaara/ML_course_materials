@@ -1,0 +1,50 @@
+\documentclass[12pt]{article}
+\usepackage{blindtext}
+\usepackage[bordered]{uni-style}
+\usepackage{uni-math}
+\usepackage{pgfplots}
+\usepackage{color,soul}
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{parskip}
+\usepackage{setspace}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{mathptmx}
+
+\newlist{mylist}{enumerate}{1}
+\setlist[mylist]{label=\textbullet}
+\captionsetup[figure]{font = footnotesize, labelfont = bf, labelsep = period, skip = 3pt}
+
+\title{introduction to machine learning}
+\prof{DR.Amiri }
+% \subtitle{latex and documents}
+\subject{assignment 1}
+\info{
+    \begin{tabular}{lr}
+        Ahmadreza Majlesara & 400101861\\
+    \end{tabular}
+}
+\date{\today}
+\department{electrical engineering department}
+
+\usepackage[final]{pdfpages}
+
+\usepackage{fontspec}
+
+
+\begin{document}
+\maketitlepage
+\maketitlestart
+\foreach \x in {1,2,3,4,5,6,7,8,9,10,11}{
+    \input{questions/Q\x.tex}
+    \clearpage
+}
+\end{document}

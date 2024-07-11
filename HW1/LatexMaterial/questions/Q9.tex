@@ -1,0 +1,101 @@
+\section{Right or wrong!}
+Determine the correctness or incorrectness of the following items with sufficient reasoning.
+\subsection{statement 1}
+if $A \in \mathbb{R}^{m\times n}$ and $B \in \mathbb{R}^{n\times p}$ are matrices with full rank and $AB = 0$ then we have: $p + m \leq n$.
+\begin{qsolve}
+	\begin{qsolve}[]
+		if $A$ is a $m\times n$ matrix and $B$ is a $n\times p$ matrix, we can define them as below:
+		$$A = \begin{pmatrix}
+			a_{11} & a_{12} & \cdots & a_{1n} \\
+			a_{21} & a_{22} & \cdots & a_{2n} \\
+			\vdots & \vdots & \ddots & \vdots \\
+			a_{m1} & a_{m2} & \cdots & a_{mn}
+		\end{pmatrix} \quad B = \begin{pmatrix}
+			b_{11} & b_{12} & \cdots & b_{1p} \\
+			b_{21} & b_{22} & \cdots & b_{2p} \\
+			\vdots & \vdots & \ddots & \vdots \\
+			b_{n1} & b_{n2} & \cdots & b_{np}
+		\end{pmatrix}$$
+		if we suppose that $n \leq m$, if $A$ is full rank then we have $rank(A) = n$ and $dim(N(A)) = n - n$. so we have $dim(N(A)) = 0$. in this case if $AB = 0 \Rightarrow B = 0$ and $B$ is not full rank so we have a contradiction. so our assumption is wrong and we have $m \leq n$.\\
+		now if we suppose that $m \leq n$, if $A$ is full rank then we have $rank(A) = m$ and $dim(N(A)) = n - m$. by the fact that $AB = 0$ we can say that the columns of $B$ are in the null space of $A$ so we have $dim(C(B)) \leq n - m$ now if we suppose that $ n \leq p$ by the fact that $B$ is full rank we have $rank(B) = n$ so $dim(C(B)) = n$ so we have $n \leq n - m$ which is a contradiction so we have $p \leq n$ and $dim(C(B)) = p$ so we have \hl{$p + m \leq n$}.\\
+
+	\end{qsolve}
+\end{qsolve}
+\subsection{statement 2}
+If for some integer values $k \geq 1$ we have $A^k = 0$ then $A-I$ is a matrix with full rank.
+\begin{qsolve}
+	\begin{qsolve}[]
+		if $k=1$ then we have $A^1 = 0$ so $A-I = -I$ and this matrix is invertible so it is full rank.\\
+		if $k > 1$ and we have $A^k = 0$ then $A^k - I = -I$. we can factorize the left side of equation as below:
+		$$A^k - I = (A-I)(A^{k-1} + A^{k-2} + \cdots + A + I) = -I$$ if we name $B = A^{k-1} + A^{k-2} + \cdots + A + I$ then we have $(A-I)(-B) = I (\ast)$. on the other hand we can factorize the left side as below:
+		$$A^k - I = B(A-I) = -I$$ 
+		\splitqsolve[\splitqsolve]
+		then we have $(-B)(A-I) = I (\ast)(\ast)$.\\
+		by the definition of the inverse of a matrix we can say that if $AB = BA = I$ the $A$ has an inverse and its inverse is $B$.\\
+		so we can say that by the equations $(\ast)$,$(\ast \ast)$, $A-I$ is invertible and its invert is $-B$. hence $A-I$ is a full rank matrix.
+	\end{qsolve}
+\end{qsolve}
+\subsection{statement 3}
+for every $A,B \in \mathbb{R}^{n\times n}$ , the eignvectors of $AB$ are equal to the eigenvectors of $BA$.
+\begin{qsolve}
+	\begin{qsolve}[]
+			we can prove that this statement is wrong by a counter example.if we define A and B as below:
+			$$A = \begin{pmatrix}
+				1 & 2 \\
+				0 & 1
+			\end{pmatrix} \quad B = \begin{pmatrix}
+				3 & 0 \\
+				0 & 4
+			\end{pmatrix}$$
+			we can calculate $AB$ and $BA$ as below:
+			$$AB = \begin{pmatrix}
+				1 & 2 \\
+				0 & 1
+			\end{pmatrix} \begin{pmatrix}
+				3 & 0 \\
+				0 & 4
+			\end{pmatrix} = \begin{pmatrix}
+				3 & 8 \\
+				0 & 4
+				\end{pmatrix}$$
+			$$BA = \begin{pmatrix}
+				3 & 0 \\
+				0 & 4
+			\end{pmatrix} \begin{pmatrix}
+				1 & 2 \\
+				0 & 1
+			\end{pmatrix} = \begin{pmatrix}
+				3 & 6 \\
+				0 & 4
+			\end{pmatrix}$$
+			the eignvalues of both $AB$ and $BA$ are equal to 3 and 4. if we want to calculate the eignvectors of $AB$ and $BA$ we can calculate the null space of $AB - \lambda I$ and $BA - \lambda I$ for $\lambda = 3,4$. if we calculate the null space of $AB - 3I$ and $BA - 3I$ we have:
+			$$AB - 3I = \begin{pmatrix}
+				0 & 8 \\
+				0 & 1
+			\end{pmatrix} \quad BA - 3I = \begin{pmatrix}
+				0 & 6 \\
+				0 & 1
+			\end{pmatrix}$$
+			so the null space of $AB - 3I$ is equal to $\begin{pmatrix}
+				1 \\
+				0
+			\end{pmatrix}$ and the null space of $BA - 3I$ is equal to $\begin{pmatrix}
+				1 \\
+				0
+				\end{pmatrix}$. now if we calculate the null space of $AB - 4I$ and $BA - 4I$ we have:
+				$$AB - 4I = \begin{pmatrix}
+					-1 & 8 \\
+					0 & 0
+				\end{pmatrix} \quad BA - 4I = \begin{pmatrix}
+					-1 & 6 \\
+					0 & 0
+				\end{pmatrix}$$
+				so the null space of $AB - 4I$ is equal to $\begin{pmatrix}
+					8 \\
+					1
+				\end{pmatrix}$ and the null space of $BA - 4I$ is equal to $\begin{pmatrix}
+					6 \\
+					1
+				\end{pmatrix}$. so we can say that the eignvectors of $AB$ and $BA$ are not equal.
+	\end{qsolve}
+\end{qsolve}

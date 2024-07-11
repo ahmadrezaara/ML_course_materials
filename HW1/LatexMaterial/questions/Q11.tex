@@ -1,0 +1,66 @@
+\section{Optimization}
+In the following lessons, you will become familiar with various classifiers, one of which is Support Vector Machine or SVM for short. In this question, we aim to examine this classifier for inseparable data. As you will see later, to find the best classifier, we will encounter an optimization problem with inequality constraints as follows.
+\[
+\left\{
+\begin{array}{ll}
+\min\limits_{\textbf{w},w_0,\eta} & J(\textbf{w},w_0,\eta) = \frac{1}{2}\textbf{w}^T\textbf{w} + C \sum\limits_{i=1}^{N} \eta_i \\
+\text{s.t.} & y_i(\textbf{w}^Tx_i + w_0) \geq 1 - \eta_i\quad ,\quad \eta_i \geq 0 \quad i = 1,2,...,N
+\end{array}
+\right.
+\]
+\subsection{step 1}
+Formulate the Lagrangian for the above problem.
+\begin{qsolve}
+	\begin{qsolve}[]
+		we can define the lagrangian as
+		$$ L(\textbf{w},w_0,\eta,\alpha,\beta) = \frac{1}{2}\textbf{w}^T\textbf{w} + C \sum\limits_{i=1}^{N} \eta_i - \sum\limits_{i=1}^{N}\alpha_i(y_i(\textbf{w}^Tx_i + w_0) - 1 + \eta_i) - \sum\limits_{i=1}^{N}\beta_i\eta_i $$
+		
+	\end{qsolve}
+\end{qsolve}
+\subsection{step 2}
+Obtain the solution to the problem by applying the Karush-Kuhn-Tucker (KKT) conditions.
+\begin{qsolve}
+	\begin{qsolve}[]
+		We can solve the problem by applying the KKT conditions. The KKT conditions are as follows:
+		\begin{itemize}
+			\item primal feasibility:
+			$
+			\left\{
+			\begin{array}{ll}
+				y_i(\textbf{w}^Tx_i + w_0) \geq 1 - \eta_i\\
+				\eta_i \geq 0
+			\end{array}
+			\right.
+			$
+			\item dual feasibility:
+			$
+			\left\{
+			\begin{array}{ll}
+				\alpha_i \geq 0\\
+				\beta_i \geq 0
+			\end{array}
+			\right.
+			$
+			\item stationary:
+			$
+			\left\{
+			\begin{array}{ll}
+				\nabla_{\textbf{w}}L = \textbf{w} - \sum\limits_{i=1}^{N}\alpha_iy_ix_i = 0\\
+				\dfrac{\partial}{\partial w_0}L = -\sum\limits_{i=1}^{N}\alpha_iy_i = 0\\
+				\dfrac{\partial }{\partial \eta}L = C - \alpha_i - \beta_i = 0
+			\end{array}
+			\right.
+			$
+			\item Complementary slackness:
+			$
+			\left\{
+			\begin{array}{ll}
+				\alpha_i(y_i(\textbf{w}^Tx_i + w_0) - 1 + \eta_i) = 0\\
+				\beta_i\eta_i = 0
+			\end{array}
+			\right.
+			$
+		\end{itemize}
+
+	\end{qsolve}
+\end{qsolve}

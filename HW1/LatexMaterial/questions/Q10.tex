@@ -1,0 +1,84 @@
+\section{Calculating normalized eigenvectors from eigenvalues!
+}
+We wish to prove the following identity, for diagonalizable matrix \( A \), with diagonalization 
+$ A = \sum_{i=1}^{n} \lambda_i(A)v_i(A)v_i(A)^H $,
+where \( \lambda_i(A) \), \( 1 \leq i \leq n \) are the eigenvalues and \( v_i(A) \), \( 1 \leq i \leq n \) are the corresponding eigenvectors, where all eigenvalues are non-zero and the matrix has a simple spectrum.
+
+$$ \left| v_{i,j}(A) \right|^2 \prod_{\substack{k=1 \\ k \neq i}}^{n} \left( \lambda_i(A) - \lambda_k(A) \right) = \prod_{k=1}^{n-1} \left( \lambda_i(A) - \lambda_k(M_{ij}) \right) $$
+
+Where \( M_{ij} \) is the submatrix formed by removing the \( i \)th row and \( j \)th column from the original matrix, \( A \).
+
+To do this we take the following steps.
+\subsection{Step 1}
+For any square matrix $S$ , with eigenvalues $\lambda_1(S),\lambda_2(S),\cdots,\lambda_n(S)$ prove that
+ $$\det\{S\} = \prod_{i=1}^{n} \lambda_i(S)$$.
+\begin{qsolve}
+	\begin{qsolve}[]
+		from eigenvalue decomposition of $S$ we have $S = V \Lambda V^{-1}$, where $\Lambda$ is the diagonal matrix of eigenvalues of $S$ and $V$ is the matrix of eigenvectors of $S$.
+		$$S = V \Lambda V^{-1} \quad , \quad \Lambda = \begin{bmatrix}
+			\lambda_1(S) & 0 & \cdots & 0 \\
+			0 & \lambda_2(S) & \cdots & 0 \\
+			\vdots & \vdots & \ddots & \vdots \\
+			0 & 0 & \cdots & \lambda_n(S) \\
+		\end{bmatrix}$$
+		so by the properties of the determinant we have
+		$$\det\{S\} = \det\{V\Lambda V^{-1}\} = \det\{V\}\det\{\Lambda\}\det\{V^{-1}\}$$
+		we also know that $\det\{V^{-1}\} = \frac{1}{\det\{V\}}$, so
+		$$\det\{S\} = \det\{V\}\det\{\Lambda\}\frac{1}{\det\{V\}} = \det\{\Lambda\}$$
+		as $\Lambda$ is a diagonal matrix ,  $\det\{\Lambda\} = \prod_{i=1}^{n} \lambda_i(S)$, so we have
+		$$\det\{S\} = \prod_{i=1}^{n} \lambda_i(S)$$
+	\end{qsolve}
+\end{qsolve}
+\subsection{Step 2}
+Prove $A\ \text{adj}(A) = \det(A)I = \text{adj}(A)A$ , in wich $\text{adj}(A)$ is the adjugate matrix of $A$. We define the coefficients of the $\text{adj}(A)$ by $\text{adj}(A)_{ij} = (-1)^{i+j}\det\{M_{ji}\}$  
+\begin{qsolve}
+	\begin{qsolve}[]
+		we know that determinant of a matrix can be written as below:
+		$$\det\{A\} = \sum_{i=1}^{n} a_{ij}(-1)^{i+j}\det\{M_{ij}\}$$
+		so we have:
+		$$(A \text{adj}(A))_{kl} = \sum_{i=1}^{n} a_{ki}(-1)^{i+l}\det\{M_{li}\}$$
+		if we assume $k=l$ we have:
+		$$(A \text{adj}(A))_{ll} = \sum_{i=1}^{n} a_{li}(-1)^{i+l}\det\{M_{li}\} = \det\{A\}$$
+		and if we assume $k\neq l$ we have:
+		$$(A \text{adj}(A))_{kl} = \sum_{i=1}^{n} a_{ki}(-1)^{i+l}\det\{M_{li}\} = 0$$
+		so if we define expansion of the determinant of the matrix as $A^{kl}$ as:
+		$$A^{kl} = \left\{
+			\begin{array}{ll}
+				a_{ij} \quad \text{if}\ i\neq l \\
+				a_{kj} \quad \text{if}\ i = l
+			\end{array}
+			\right.$$
+		this expansion has two equal rows so we can say that:
+		$$ A\text{adj}(A) = \det\{A\}I$$
+		similarly we can prove that $\text{adj}(A)A = \det\{A\}I$	
+	\end{qsolve}
+\end{qsolve}
+\subsection{Step 3}
+show that $\text{adj}(A)$ has a diagonalization $\text{adj}(A) = \sum_{i=1}^{n} \left(\prod_{k=1,k\neq i}^{n}\lambda_k(A)\right) v_i(A)v_i(A)^H$.
+\begin{qsolve}
+	\begin{qsolve}[]
+		we know that by definition $A^n v_i = \lambda_i^n v_i$, so we can say that:
+		$$A^{-1} v_i = \frac{1}{\lambda_i} v_i \Rightarrow A^{-1} = \sum_{i=1}^{n} \frac{1}{\lambda_i} v_i v_i^H$$
+		\splitqsolve[\splitqsolve]
+		we also know that $A^{-1} = \frac{\text{adj}(A)}{\det\{A\}}$, so we can say that:
+		$$\text{adj}(A) = \det\{A\} A^{-1} = \det\{A\} \sum_{i=1}^{n} \frac{1}{\lambda_i} v_i v_i^H$$
+		as we proved in the first part of this question, $\det\{A\} = \prod_{i=1}^{n} \lambda_i(A)$, so we have:
+		$$\text{adj}(A) = \sum_{i=1}^{n} \left(\prod_{k=1,k\neq i}^{n}\lambda_k(A)\right) v_i(A)v_i(A)^H$$
+	\end{qsolve}
+\end{qsolve}
+\subsection{Step 4}
+now prove the identity.
+\begin{qsolve}
+	\begin{qsolve}[]
+		in the last part if we replace $A$ with $\lambda I - A$ we have:
+		$$\text{adj}(\lambda I - A) = \sum_{i=1}^{n} \left(\prod_{k=1,k\neq i}^{n}(\lambda - \lambda_k(A))\right) v_i(A)v_i(A)^H$$
+		we know that $\text{adj}(\lambda I - A) = \det\{\lambda I - A\}I$, so we have:
+		$$\det\{\lambda I - A\}I = \sum_{i=1}^{n} \left(\prod_{k=1,k\neq i}^{n}(\lambda - \lambda_k(A))\right) v_i(A)v_i(A)^H$$
+		we also know that $\det\{\lambda I - A\} = \prod_{i=1}^{n} (\lambda - \lambda_i(A))$, so we have:
+		$$\prod_{i=1}^{n} (\lambda - \lambda_i(A))I = \sum_{i=1}^{n} \left(\prod_{k=1,k\neq i}^{n}(\lambda - \lambda_k(A))\right) v_i(A)v_i(A)^H$$
+		by multiplying both sides by $\left(\prod_{k=1,k\neq i}^{n}(\lambda - \lambda_k(A))\right)^{-1}$ we have:
+		$$\left| v_{i,j}(A) \right|^2 \prod_{\substack{k=1 \\ k \neq i}}^{n} \left( \lambda_i(A) - \lambda_k(A) \right) = \prod_{k=1}^{n-1} \left( \lambda_i(A) - \lambda_k(M_{ij}) \right)$$
+		
+	\end{qsolve}
+\end{qsolve}
+
